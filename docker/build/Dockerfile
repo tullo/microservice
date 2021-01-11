@@ -30,3 +30,6 @@ RUN GO111MODULE=on go get github.com/twitchtv/twirp/protoc-gen-twirp
 
 # Install interface scaffolder
 RUN GO111MODULE=on go get github.com/josharian/impl
+
+# Install google wire for DI
+RUN GO111MODULE=on go get github.com/google/wire/cmd/wire
