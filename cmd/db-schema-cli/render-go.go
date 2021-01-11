@@ -3,6 +3,10 @@ package main
 import (
 	"bytes"
 	"fmt"
+	"go/format"
+	"io/ioutil"
+	"log"
+	"path"
 	"strings"
 
 	"github.com/pkg/errors"
@@ -91,7 +95,7 @@ func resolveGoType(column *Column) (string, error) {
 	return "", errors.Errorf("Unsupported SQL type: %s", column.DataType)
 }
 
-func renderGo(service string, tables []*Table) error {
+func renderGo(basePath string, service string, tables []*Table) error {
 
 	imports := []string{}
 
@@ -159,5 +163,17 @@ func renderGo(service string, tables []*Table) error {
 		fmt.Println()
 	}
 
-	return nil
+	filename := path.Join(basePath, "types_gen.go")
+	contents := buf.Bytes()
+
+	formatted, err := format.Source(contents)
+	if err != nil {
+		// Fall back to unformatted source to inspect
+		// the saved file for the error which occurred.
+		formatted = contents
+		log.Println("An error occurred while formatting the go source:", err)
+		log.Println("Saving the unformatted code")
+	}
+
+	return ioutil.WriteFile(filename, formatted, 0600)
 }

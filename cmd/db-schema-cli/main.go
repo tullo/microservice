@@ -26,7 +26,12 @@ func main() {
 	flag.StringVar(&config.db.DSN, "db-dsn", "", "DSN for database connection")
 	flag.StringVar(&config.schema, "schema", "", "Schema name to print tables for")
 	flag.StringVar(&config.format, "format", "go", "Output formatting")
+	flag.StringVar(&config.output, "output", "", "Output folder (mandatory)")
 	flag.Parse()
+
+	if config.output == "" && !config.drop {
+		log.Fatal("Missing -output parameter, please specify output folder")
+	}
 
 	handle, err := sqlx.Connect(config.db.Driver, config.db.DSN)
 	if err != nil {
@@ -54,9 +59,15 @@ func main() {
 
 	// Render go structs
 	if config.format == "go" {
-		if err := renderGo(config.schema, tables); err != nil {
+		if err := renderGo(config.output, config.schema, tables); err != nil {
 			log.Fatal(err)
 		}
 	}
 
+	// Render markdown tables
+	if config.format == "markdown" {
+		if err := renderMarkdown(config.output, config.schema, tables); err != nil {
+			log.Fatal(err)
+		}
+	}
 }

@@ -35,7 +35,7 @@ func Run(project string, db *sqlx.DB) error {
 func migrate(db *sqlx.DB, fs *FS, project, filename string) error {
 	log.Println("Running migrations from", filename)
 
-	status := migration{
+	mig := migration{
 		Project:        project,
 		Filename:       filename,
 		StatementIndex: -1,
@@ -45,17 +45,17 @@ func migrate(db *sqlx.DB, fs *FS, project, filename string) error {
 	// skip logs for main migrations table.
 	useLog := (filename != "migrations.sql")
 	if useLog {
-		if err := db.Get(&status, "select * from migrations where project=? and filename=?", status.Project, status.Filename); err != nil && !errors.Is(err, sql.ErrNoRows) {
-			return fmt.Errorf("failed to select * from migrations where project=%v and filename=%v: %w", status.Project, status.Filename, err)
+		if err := db.Get(&mig, "select * from migrations where project=? and filename=?", mig.Project, mig.Filename); err != nil && !errors.Is(err, sql.ErrNoRows) {
+			return fmt.Errorf("failed to select * from migrations where project=%v and filename=%v: %w", mig.Project, mig.Filename, err)
 		}
-		if status.Status == "ok" {
+		if mig.Status == "ok" {
 			log.Println("Migrations already applied, skipping")
 
 			return nil
 		}
 	}
 
-	err := migrateUp(db, fs, &status, useLog)
+	err := migrateUp(db, fs, &mig, useLog)
 	if useLog {
 		// log the migration status into the database
 		set := func(fields []string) string {
@@ -66,7 +66,7 @@ func migrate(db *sqlx.DB, fs *FS, project, filename string) error {
 
 			return strings.Join(sql, ", ")
 		}
-		if _, err = db.NamedExec("replace into migrations set "+set(migrationFields), status); err != nil {
+		if _, err = db.NamedExec("replace into migrations set "+set(migrationFields), mig); err != nil {
 			log.Println("Updating migration status failed:", err)
 		}
 	}
@@ -74,24 +74,24 @@ func migrate(db *sqlx.DB, fs *FS, project, filename string) error {
 	return err
 }
 
-func migrateUp(db *sqlx.DB, fs *FS, status *migration, useLog bool) error {
-	stmts, err := statements(fs.ReadFile(status.Filename))
+func migrateUp(db *sqlx.DB, fs *FS, mig *migration, useLog bool) error {
+	stmts, err := statements(fs.ReadFile(mig.Filename))
 	if err != nil {
-		return errors.Wrap(err, fmt.Sprintf("Error reading migration: %s", status.Filename))
+		return errors.Wrap(err, fmt.Sprintf("Error reading migration: %s", mig.Filename))
 	}
 
 	for idx, stmt := range stmts {
 		// skip stmt if it has already been applied
-		if idx >= status.StatementIndex {
-			status.StatementIndex = idx
+		if idx >= mig.StatementIndex {
+			mig.StatementIndex = idx
 			if err := execQuery(db, idx, stmt, useLog); err != nil {
-				status.Status = err.Error()
+				mig.Status = err.Error()
 
 				return err
 			}
 		}
 	}
-	status.Status = "ok"
+	mig.Status = "ok"
 
 	return nil
 }
