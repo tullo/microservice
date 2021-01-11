@@ -32,6 +32,7 @@ build.%:
 
 templates: export MODULE=$(shell grep ^module go.mod | sed -e 's/module //g')
 templates: $(shell ls -d rpc/* | sed -e 's/rpc\//templates./g')
+	@./templates/db_schema.go.sh
 	@echo OK.
 
 templates.%: export SERVICE=$*
