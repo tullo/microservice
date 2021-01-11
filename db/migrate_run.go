@@ -46,7 +46,7 @@ func migrate(db *sqlx.DB, fs *FS, project, filename string) error {
 	useLog := (filename != "migrations.sql")
 	if useLog {
 		if err := db.Get(&status, "select * from migrations where project=? and filename=?", status.Project, status.Filename); err != nil && !errors.Is(err, sql.ErrNoRows) {
-			return fmt.Errorf("failed to select * from migrations: %w", err)
+			return fmt.Errorf("failed to select * from migrations where project=%v and filename=%v: %w", status.Project, status.Filename, err)
 		}
 		if status.Status == "ok" {
 			log.Println("Migrations already applied, skipping")

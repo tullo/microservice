@@ -1,4 +1,4 @@
-.PHONY: all rpc
+.PHONY: all build build-cli migrate rpc templates
 
 all:
 	@drone exec
@@ -65,7 +65,7 @@ build-cli.%:
 
 # database migrations ======================================= [dynamic targets]
 
-migrate: $(shell ls -d db/schema/*/migrations.sql | xargs -n1 dirname | sed -e 's/db.schema./migrate./')
+migrate: $(shell find . -type f -regex ".*migrations.sql" | xargs -n1 -r dirname | sed -e 's/db.schema./migrate./')
 	@echo OK.
 
 # We run the migrations twice, so we make sure that our migration status is logged correctly as well.
@@ -74,6 +74,8 @@ migrate: $(shell ls -d db/schema/*/migrations.sql | xargs -n1 dirname | sed -e '
 migrate.%: export SERVICE = $*
 migrate.%: export MYSQL_ROOT_PASSWORD = default
 migrate.%:
+	@echo migrate.$(SERVICE)
 	mysql -h mysql-test -u root -p$(MYSQL_ROOT_PASSWORD) -e "CREATE DATABASE $(SERVICE);"
 	./build/db-migrate-cli-linux-amd64 -service $(SERVICE) -db-dsn "root:$(MYSQL_ROOT_PASSWORD)@tcp(mysql-test:3306)/$(SERVICE)" -real=true
 	./build/db-migrate-cli-linux-amd64 -service $(SERVICE) -db-dsn "root:$(MYSQL_ROOT_PASSWORD)@tcp(mysql-test:3306)/$(SERVICE)" -real=true
+	./build/db-schema-cli-linux-amd64 -schema $(SERVICE) -db-dsn "root:$(MYSQL_ROOT_PASSWORD)@tcp(mysql-test:3306)/$(SERVICE)" > server/$(SERVICE)/types_db.go
