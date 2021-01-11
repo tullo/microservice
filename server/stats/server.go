@@ -3,11 +3,13 @@ package stats
 import (
 	"context"
 
+	"github.com/jmoiron/sqlx"
 	"github.com/tullo/microservice/rpc/stats"
 )
 
 // Server implements stats.Stats.
 type Server struct {
+	db *sqlx.DB
 }
 
 var _ stats.StatsService = &Server{}

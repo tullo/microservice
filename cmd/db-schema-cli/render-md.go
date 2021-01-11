@@ -9,30 +9,6 @@ import (
 	"strings"
 )
 
-func renderMarkdown(basePath string, schema string, tables []*Table) error {
-	// create output folder
-	if err := os.MkdirAll(basePath, 0755); err != nil {
-		return fmt.Errorf("failed to create output folder: %w", err)
-	}
-
-	// generate individual markdown files with service
-	for _, table := range tables {
-		filename := path.Join(basePath, table.Name+".md")
-
-		if strings.ToLower(table.Comment) == "ignore" {
-			continue
-		}
-
-		contents := renderMarkdownTable(table)
-		if err := ioutil.WriteFile(filename, contents, 0600); err != nil {
-			return fmt.Errorf("failed to write markdown contents: %w", err)
-		}
-	}
-
-	return nil
-
-}
-
 func renderMarkdownTable(table *Table) []byte {
 	// calculate initial padding from table header
 	titles := []string{"Name", "Type", "Key", "Comment"}
@@ -93,4 +69,27 @@ func renderMarkdownTable(table *Table) []byte {
 
 	// return byte slice for writing to file
 	return buf.Bytes()
+}
+
+func renderMarkdown(basePath string, _ string, tables []*Table) error {
+	// create output folder
+	if err := os.MkdirAll(basePath, 0755); err != nil {
+		return fmt.Errorf("failed to create output folder: %w", err)
+	}
+
+	// generate individual markdown files with service
+	for _, table := range tables {
+		filename := path.Join(basePath, table.Name+".md")
+
+		if strings.ToLower(table.Comment) == "ignore" {
+			continue
+		}
+
+		contents := renderMarkdownTable(table)
+		if err := ioutil.WriteFile(filename, contents, 0600); err != nil {
+			return fmt.Errorf("failed to write markdown contents: %w", err)
+		}
+	}
+
+	return nil
 }

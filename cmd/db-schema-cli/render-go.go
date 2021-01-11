@@ -4,8 +4,10 @@ import (
 	"bytes"
 	"fmt"
 	"go/format"
+	"io"
 	"io/ioutil"
 	"log"
+	"os"
 	"path"
 	"strings"
 
@@ -69,16 +71,7 @@ func isSpecial(column *Column) (specialType, bool) {
 	return val, ok
 }
 
-func contains(set []string, value string) bool {
-	for _, v := range set {
-		if v == value {
-			return true
-		}
-	}
-	return false
-}
-
-func resolveGoType(column *Column) (string, error) {
+func resolveTypeGo(column *Column) (string, error) {
 	if val, ok := isSimple(column); ok {
 		return val, nil
 	}
@@ -87,50 +80,57 @@ func resolveGoType(column *Column) (string, error) {
 		if isUnsigned {
 			return "u" + val, nil
 		}
+
 		return val, nil
 	}
 	if val, ok := isSpecial(column); ok {
 		return val.Type, nil
 	}
+
 	return "", errors.Errorf("Unsupported SQL type: %s", column.DataType)
 }
 
-func renderGo(basePath string, service string, tables []*Table) error {
-
-	imports := []string{}
-
-	// Loop through tables/columns, return type error if any
-	// This also builds the `imports` slice for codegen lower
-	for _, table := range tables {
-		for _, column := range table.Columns {
-			if _, err := resolveGoType(column); err != nil {
-				return err
-			}
+func printCollectedImports(buf io.Writer, imports []string) {
+	fmt.Fprintln(buf, "import (")
+	nl := false
+	for _, val := range imports {
+		if !strings.Contains(val, " ") {
+			fmt.Fprintf(buf, "\t%s\n", val)
+		} else {
+			nl = true
 		}
 	}
-	buf := bytes.NewBuffer([]byte{})
-
-	fmt.Fprintf(buf, "package %s\n", service)
+	if nl {
+		fmt.Fprintln(buf)
+	}
+	for _, val := range imports {
+		if strings.Contains(val, " ") {
+			fmt.Fprintf(buf, "\t%s\n", val)
+		}
+	}
+	fmt.Fprintln(buf, ")")
 	fmt.Fprintln(buf)
+}
 
-	// Print collected imports
-	if len(imports) > 0 {
-		fmt.Println("import (")
-		for _, val := range imports {
-			fmt.Printf("\t\"%s\"\n", val)
-		}
-		fmt.Println(")")
-		fmt.Println()
-	}
-
+func printTables(buf io.Writer, service string, tables []*Table) {
 	for _, table := range tables {
 		fields := []string{}
 		primary := []string{}
-		if table.Comment != "" {
-			fmt.Println("//", table.Comment)
+		setters := []string{}
+
+		if strings.ToLower(table.Comment) == "ignore" {
+			continue
 		}
-		fmt.Printf("type %s struct {\n", camel(table.Name))
+
+		tableName := camel(strings.Replace(table.Name, service+"_", "", 1))
+
+		fmt.Fprintf(buf, "// %s generated for db table `%s`.\n", tableName, table.Name)
+		if table.Comment != "" {
+			fmt.Fprintln(buf, "//\n//", table.Comment)
+		}
+		fmt.Fprintf(buf, "type %s struct {\n", tableName)
 		for idx, column := range table.Columns {
+			columnName := camel(column.Name)
 			fields = append(fields, column.Name)
 			if column.Key == "PRI" {
 				primary = append(primary, column.Name)
@@ -138,30 +138,90 @@ func renderGo(basePath string, service string, tables []*Table) error {
 
 			if column.Comment != "" {
 				if idx > 0 {
-					fmt.Println()
+					fmt.Fprintln(buf)
 				}
-				fmt.Printf("	// %s\n", column.Comment)
+				fmt.Fprintf(buf, "	// %s\n", column.Comment)
 			}
-			columnType, _ := resolveGoType(column)
-			fmt.Printf("    %s %s `db:\"%s\" json:\"-\"`\n", camel(column.Name), columnType, column.Name)
+			columnType, _ := resolveTypeGo(column)
+			fmt.Fprintf(buf, "	%s %s `db:\"%s\" json:\"-\"`\n", columnName, columnType, column.Name)
+			if columnType == "*time.Time" {
+				receiver := strings.ToLower(string(tableName[0]))
+				setters = append(setters, []string{
+					fmt.Sprintf("// Set%s sets %s which requires a *time.Time.", columnName, columnName),
+					fmt.Sprintf("func (%s *%s) Set%s(t time.Time) { %s.%s = &t }", receiver, tableName, columnName, receiver, columnName),
+				}...)
+			}
 		}
-		fmt.Println("}")
-		fmt.Println()
-		fmt.Printf("var %sFields = ", camel(table.Name))
+		fmt.Fprintln(buf, "}")
+		fmt.Fprintln(buf)
+		for _, v := range setters {
+			fmt.Fprintln(buf, v)
+		}
+		if len(setters) > 0 {
+			fmt.Fprintln(buf)
+		}
+		// Table name.
+		fmt.Fprintf(buf, "// %sTable is the name of the table in the DB.\n", tableName)
+		// Table is SQL backtick quoted so we can allow reserved words like `group`.
+		fmt.Fprintf(buf, "const %sTable = \"`%s`\"\n", tableName, table.Name)
+		// Table fields.
+		fmt.Fprintf(buf, "// %sFields are all the field names in the DB table.\n", tableName)
+		fmt.Fprintf(buf, "var %sFields = ", tableName)
 		if len(fields) > 0 {
-			fmt.Printf("[]string{\"%s\"}", strings.Join(fields, "\", \""))
+			fmt.Fprintf(buf, "[]string{\"%s\"}", strings.Join(fields, "\", \""))
 		} else {
-			fmt.Printf("[]string{}")
+			fmt.Fprintf(buf, "[]string{}")
 		}
-		fmt.Println()
-		fmt.Printf("var %sPrimaryFields = ", camel(table.Name))
+		fmt.Fprintln(buf)
+		// Table primary keys.
+		fmt.Fprintf(buf, "// %sPrimaryFields are the primary key fields in the DB table.\n", tableName)
+		fmt.Fprintf(buf, "var %sPrimaryFields = ", tableName)
 		if len(primary) > 0 {
-			fmt.Printf("[]string{\"%s\"}", strings.Join(primary, "\", \""))
+			fmt.Fprintf(buf, "[]string{\"%s\"}", strings.Join(primary, "\", \""))
 		} else {
-			fmt.Printf("[]string{}")
+			fmt.Fprintf(buf, "[]string{}")
 		}
-		fmt.Println()
+		fmt.Fprintln(buf)
 	}
+}
+
+func renderGo(basePath string, service string, tables []*Table) error {
+	// Create output folder.
+	if err := os.MkdirAll(basePath, 0755); err != nil {
+		return fmt.Errorf("failed to create output folder: %w", err)
+	}
+
+	var imports []string
+
+	// Loop through tables/columns, return type error if any.
+	// This also builds the `imports` slice for codegen lower.
+	for _, table := range tables {
+		for _, column := range table.Columns {
+			if val, ok := isSpecial(column); ok {
+				importString := fmt.Sprintf("\"%s\"", val.Import)
+				// "x y" => import x "y"
+				if strings.Contains(val.Import, " ") {
+					parts := strings.Split(val.Import, " ")
+					importString = fmt.Sprintf("%s \"%s\"", parts[0], parts[1])
+				}
+				if !contains(imports, importString) {
+					imports = append(imports, importString)
+				}
+			}
+		}
+	}
+
+	var buf bytes.Buffer
+
+	fmt.Fprintf(&buf, "package %s\n", service)
+	fmt.Fprintln(&buf)
+
+	// Print collected imports.
+	if len(imports) > 0 {
+		printCollectedImports(&buf, imports)
+	}
+
+	printTables(&buf, service, tables)
 
 	filename := path.Join(basePath, "types_gen.go")
 	contents := buf.Bytes()

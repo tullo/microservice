@@ -13,6 +13,7 @@ rpc.%:
 	@echo '> protoc gen for $(SERVICE)'
 	@protoc --proto_path=$(GOPATH)/src:. -Irpc/$(SERVICE) --go_out=plugins=grpc,paths=source_relative:. rpc/$(SERVICE)/$(SERVICE).proto
 	@protoc --proto_path=$(GOPATH)/src:. -Irpc/$(SERVICE) --twirp_out=paths=source_relative:. rpc/$(SERVICE)/$(SERVICE).proto
+#	@protoc --proto_path=$(GOPATH)/src:. -Irpc/$(SERVICE) --twirp_swagger_out=js --twirp_js_out=js --js_out=import_style=commonjs,binary:js $(SERVICE).proto
 
 
 # build cmd/ go binaries ==================================== [dynamic targets]
@@ -32,7 +33,9 @@ build.%:
 
 templates: export MODULE=$(shell grep ^module go.mod | sed -e 's/module //g')
 templates: $(shell ls -d rpc/* | sed -e 's/rpc\//templates./g')
+	@rm db/schema_*.go db/schema.go
 	@./templates/db_schema.go.sh
+	@./templates/client_wire.go.sh
 	@echo OK.
 
 templates.%: export SERVICE=$*
@@ -46,6 +49,7 @@ templates.%:
 	@echo "~ client/$(SERVICE)/client.go"
 	@envsubst < templates/client_client.go.tpl > client/$(SERVICE)/client.go
 	@./templates/server_server.go.sh
+	@./templates/server_wire.go.sh
 
 
 # build cli tooling from cmd/ =============================== [dynamic targets]
@@ -76,7 +80,12 @@ migrate.%: export MYSQL_ROOT_PASSWORD = default
 migrate.%:
 	@echo migrate.$(SERVICE)
 	mysql -h mysql-test -u root -p$(MYSQL_ROOT_PASSWORD) -e "CREATE DATABASE $(SERVICE);"
-	./build/db-migrate-cli-linux-amd64 -service $(SERVICE) -db-dsn "root:$(MYSQL_ROOT_PASSWORD)@tcp(mysql-test:3306)/$(SERVICE)" -real=true
-	./build/db-migrate-cli-linux-amd64 -service $(SERVICE) -db-dsn "root:$(MYSQL_ROOT_PASSWORD)@tcp(mysql-test:3306)/$(SERVICE)" -real=true
+	./build/db-migrate-cli-linux-amd64 -service $(SERVICE) -db-dsn "root:$(MYSQL_ROOT_PASSWORD)@tcp(mysql-test:3306)/$(SERVICE)" -real=false
+	./build/db-migrate-cli-linux-amd64 -service $(SERVICE) -db-dsn "root:$(MYSQL_ROOT_PASSWORD)@tcp(mysql-test:3306)/$(SERVICE)" -real=false
 	./build/db-schema-cli-linux-amd64 -schema $(SERVICE) -db-dsn "root:$(MYSQL_ROOT_PASSWORD)@tcp(mysql-test:3306)/$(SERVICE)" -format go -output server/$(SERVICE)
 	./build/db-schema-cli-linux-amd64 -schema $(SERVICE) -db-dsn "root:$(MYSQL_ROOT_PASSWORD)@tcp(mysql-test:3306)/$(SERVICE)" -format markdown -output docs/schema/$(SERVICE)
+
+
+tidy:
+	go mod tidy
+	go fmt ./...
