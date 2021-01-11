@@ -3,6 +3,11 @@
 all:
 	@drone exec
 
+tidy:
+	go mod tidy
+	go fmt ./...
+
+
 # rpc generators ============================================ [dynamic targets]
 
 rpc: $(shell ls -d rpc/* | sed -e 's/\//./g')
@@ -86,6 +91,26 @@ migrate.%:
 	./build/db-schema-cli-linux-amd64 -schema $(SERVICE) -db-dsn "root:$(MYSQL_ROOT_PASSWORD)@tcp(mysql-test:3306)/$(SERVICE)" -format markdown -output docs/schema/$(SERVICE)
 
 
-tidy:
-	go mod tidy
-	go fmt ./...
+
+# docker image build ======================================== [dynamic targets]
+
+IMAGE_PREFIX := tullo/service-
+
+docker: $(shell ls -d cmd/* | sed -e 's/cmd\//docker./')
+	@echo IMAGE_PREFIX=$(IMAGE_PREFIX) > .env
+	@echo OK.
+
+docker.%: export SERVICE = $(shell basename $*)
+docker.%:
+	@figlet $(SERVICE)
+	docker build --rm --no-cache -t $(IMAGE_PREFIX)$(SERVICE) --build-arg service_name=$(SERVICE) -f docker/serve/Dockerfile .
+
+# docker image push========================================== [dynamic targets]
+
+push: $(shell ls -d cmd/* | sed -e 's/cmd\//push./')
+	@echo OK.
+
+push.%: export SERVICE = $(shell basename $*)
+push.%:
+	@figlet $(SERVICE)
+	docker push $(IMAGE_PREFIX)$(SERVICE)
