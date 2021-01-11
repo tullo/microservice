@@ -48,7 +48,7 @@ templates.%:
 	@./templates/server_server.go.sh
 
 
-# build cli tooling from cmd/
+# build cli tooling from cmd/ =============================== [dynamic targets]
 
 build-cli: export GOOS = linux
 build-cli: export GOARCH = amd64
@@ -59,3 +59,21 @@ build-cli: $(shell ls -d cmd/*-cli | sed -e 's/cmd\//build-cli./')
 build-cli.%: SERVICE=$*
 build-cli.%:
 	go build -o build/$(SERVICE)-$(GOOS)-$(GOARCH) ./cmd/$(SERVICE)/*.go
+
+
+
+
+# database migrations ======================================= [dynamic targets]
+
+migrate: $(shell ls -d db/schema/*/migrations.sql | xargs -n1 dirname | sed -e 's/db.schema./migrate./')
+	@echo OK.
+
+# We run the migrations twice, so we make sure that our migration status is logged correctly as well.
+# All the migrations in the second run must be skipped.
+
+migrate.%: export SERVICE = $*
+migrate.%: export MYSQL_ROOT_PASSWORD = default
+migrate.%:
+	mysql -h mysql-test -u root -p$(MYSQL_ROOT_PASSWORD) -e "CREATE DATABASE $(SERVICE);"
+	./build/db-migrate-cli-linux-amd64 -service $(SERVICE) -db-dsn "root:$(MYSQL_ROOT_PASSWORD)@tcp(mysql-test:3306)/$(SERVICE)" -real=true
+	./build/db-migrate-cli-linux-amd64 -service $(SERVICE) -db-dsn "root:$(MYSQL_ROOT_PASSWORD)@tcp(mysql-test:3306)/$(SERVICE)" -real=true
