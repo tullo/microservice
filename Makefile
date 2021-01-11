@@ -46,3 +46,16 @@ templates.%:
 	@echo "~ client/$(SERVICE)/client.go"
 	@envsubst < templates/client_client.go.tpl > client/$(SERVICE)/client.go
 	@./templates/server_server.go.sh
+
+
+# build cli tooling from cmd/
+
+build-cli: export GOOS = linux
+build-cli: export GOARCH = amd64
+build-cli: export CGO_ENABLED = 0
+build-cli: $(shell ls -d cmd/*-cli | sed -e 's/cmd\//build-cli./')
+	@echo OK.
+
+build-cli.%: SERVICE=$*
+build-cli.%:
+	go build -o build/$(SERVICE)-$(GOOS)-$(GOARCH) ./cmd/$(SERVICE)/*.go
