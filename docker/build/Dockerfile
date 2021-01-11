@@ -24,3 +24,6 @@ RUN GO111MODULE=on go get google.golang.org/grpc
 
 # Install protoc-gen-go
 RUN GO111MODULE=on go get github.com/golang/protobuf/protoc-gen-go
+
+# Install protoc-gen-twirp
+RUN GO111MODULE=on go get github.com/twitchtv/twirp/protoc-gen-twirp
