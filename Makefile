@@ -26,3 +26,22 @@ build: $(shell ls -d cmd/* | grep -v "\-cli" | sed -e 's/cmd\//build./')
 build.%: SERVICE=$*
 build.%:
 	go build -o build/$(SERVICE)-$(GOOS)-$(GOARCH) ./cmd/$(SERVICE)/*.go
+
+
+# code generator for client/server/cmd ====================== [dynamic targets]
+
+templates: export MODULE=$(shell grep ^module go.mod | sed -e 's/module //g')
+templates: $(shell ls -d rpc/* | sed -e 's/rpc\//templates./g')
+	@echo OK.
+
+templates.%: export SERVICE=$*
+templates.%: export SERVICE_CAMEL=$(shell echo $(SERVICE) | sed -r 's/(^|_)([a-z])/\U\2/g')
+templates.%: export MODULE=$(shell grep ^module go.mod | sed -e 's/module //g')
+templates.%:
+	@echo templates: $(SERVICE) $(MODULE)
+	@mkdir -p cmd/$(SERVICE) client/$(SERVICE) server/$(SERVICE)
+	@echo "~ cmd/$(SERVICE)/main.go"
+	@envsubst < templates/cmd_main.go.tpl > cmd/$(SERVICE)/main.go
+	@echo "~ client/$(SERVICE)/client.go"
+	@envsubst < templates/client_client.go.tpl > client/$(SERVICE)/client.go
+	@./templates/server_server.go.sh

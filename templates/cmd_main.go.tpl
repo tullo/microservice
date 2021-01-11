@@ -4,15 +4,15 @@ package main
 // generator and template: templates/cmd_main.go.tpl
 
 import (
-	"context"
 	"log"
+	"context"
 
 	"net/http"
 
 	_ "github.com/go-sql-driver/mysql"
 
-	"github.com/tullo/microservice/rpc/stats"
-	server "github.com/tullo/microservice/server/stats"
+	"${MODULE}/rpc/${SERVICE}"
+	server "${MODULE}/server/${SERVICE}"
 )
 
 func main() {
@@ -23,7 +23,7 @@ func main() {
 		log.Fatalf("Error in service.New(): %+v", err)
 	}
 
-	twirpHandler := stats.NewStatsServiceServer(srv, nil)
+	twirpHandler := ${SERVICE}.New${SERVICE_CAMEL}ServiceServer(srv, nil)
 
 	http.ListenAndServe(":3000", twirpHandler)
 }

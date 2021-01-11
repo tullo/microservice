@@ -12,6 +12,7 @@ steps:
   pull: always
   commands:
   - make rpc
+  - make templates
   - go mod tidy > /dev/null 2>&1
   - go fmt ./... > /dev/null 2>&1
   - make build

@@ -27,3 +27,6 @@ RUN GO111MODULE=on go get github.com/golang/protobuf/protoc-gen-go
 
 # Install protoc-gen-twirp
 RUN GO111MODULE=on go get github.com/twitchtv/twirp/protoc-gen-twirp
+
+# Install interface scaffolder
+RUN GO111MODULE=on go get github.com/josharian/impl
