@@ -1,0 +1,9 @@
+apm-server:
+  host: "0.0.0.0:8200"
+
+output.elasticsearch:
+  hosts: ["elk:9200"]
+
+#"forbidden request: Agent remote configuration is disabled. Configure the `apm-server.kibana` section in apm-server.yml to enable it. 
+#If you are using a RUM agent, you also need to configure the `apm-server.rum` section.
+#If you are not using remote configuration, you can safely ignore this error."}

@@ -3,6 +3,8 @@ package internal
 import (
 	"net/http"
 	"strings"
+
+	"go.elastic.co/apm/module/apmhttp"
 )
 
 // Get remote IP address.
@@ -26,4 +28,11 @@ func WrapWithIP(h http.Handler) http.Handler {
 		ctx := SetIPToContext(r.Context(), remoteIPAddr(r))
 		h.ServeHTTP(w, r.WithContext(ctx))
 	})
+}
+
+// WrapAll wraps a http.Handler with all needed handlers for our service
+func WrapAll(h http.Handler) http.Handler {
+	h = WrapWithIP(h)
+	h = apmhttp.Wrap(h)
+	return h
 }

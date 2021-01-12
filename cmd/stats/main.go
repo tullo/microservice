@@ -35,7 +35,7 @@ func main() {
 			log.Fatalf("Error connecting to database: %+v", err)
 		}
 		if err := db.Run("stats", handle); err != nil {
-			log.Fatalf("An error occured: %+v", err)
+			log.Fatalf("An error occurred: %+v", err)
 		}
 	}
 
@@ -44,7 +44,7 @@ func main() {
 		log.Fatalf("Error in service.New(): %+v", err)
 	}
 
-	twirpHandler := stats.NewStatsServiceServer(srv, nil)
+	twirpHandler := stats.NewStatsServiceServer(srv, internal.NewServerHooks())
 
-	http.ListenAndServe(":3000", internal.WrapWithIP(twirpHandler))
+	http.ListenAndServe(":3000", internal.WrapAll(twirpHandler))
 }
