@@ -11,6 +11,7 @@ import (
 
 	"github.com/SentimensRG/sigctx"
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/pkg/errors"
 	"github.com/tullo/microservice/db"
 	"github.com/tullo/microservice/internal"
 	"github.com/tullo/microservice/rpc/stats"
@@ -46,5 +47,16 @@ func main() {
 
 	twirpHandler := stats.NewStatsServiceServer(srv, internal.NewServerHooks())
 
-	http.ListenAndServe(":3000", internal.WrapAll(twirpHandler))
+	go func() {
+		log.Println("Starting service on port :3000")
+		err := http.ListenAndServe(":3000", internal.WrapAll(twirpHandler))
+		if !errors.Is(err, http.ErrServerClosed) {
+			log.Println("Server error:", err)
+		}
+	}()
+	<-ctx.Done()
+
+	srv.Shutdown()
+	log.Println("Done.")
+
 }
