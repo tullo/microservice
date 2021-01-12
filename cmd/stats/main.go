@@ -11,6 +11,7 @@ import (
 
 	_ "github.com/go-sql-driver/mysql"
 
+	"github.com/tullo/microservice/internal"
 	"github.com/tullo/microservice/rpc/stats"
 	server "github.com/tullo/microservice/server/stats"
 )
@@ -25,5 +26,5 @@ func main() {
 
 	twirpHandler := stats.NewStatsServiceServer(srv, nil)
 
-	http.ListenAndServe(":3000", twirpHandler)
+	http.ListenAndServe(":3000", internal.WrapWithIP(twirpHandler))
 }

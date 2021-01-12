@@ -10,5 +10,6 @@ import (
 // dependency injection use.
 var Inject = wire.NewSet(
 	db.Connect,
+	Sonyflake,
 	client.Inject,
 )

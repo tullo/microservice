@@ -1,20 +1,12 @@
 package stats
 
 import (
-	"context"
-
 	"github.com/jmoiron/sqlx"
-	"github.com/tullo/microservice/rpc/stats"
+	"github.com/sony/sonyflake"
 )
 
 // Server implements stats.Stats.
 type Server struct {
-	db *sqlx.DB
-}
-
-var _ stats.StatsService = &Server{}
-
-// Push a record to the incoming log table.
-func (svc *Server) Push(_ context.Context, _ *stats.PushRequest) (*stats.PushResponse, error) {
-	panic("not implemented") // TODO: Implement
+	db        *sqlx.DB
+	sonyflake *sonyflake.Sonyflake
 }

@@ -11,6 +11,7 @@ import (
 
 	_ "github.com/go-sql-driver/mysql"
 
+	"${MODULE}/internal"
 	"${MODULE}/rpc/${SERVICE}"
 	server "${MODULE}/server/${SERVICE}"
 )
@@ -25,5 +26,5 @@ func main() {
 
 	twirpHandler := ${SERVICE}.New${SERVICE_CAMEL}ServiceServer(srv, nil)
 
-	http.ListenAndServe(":3000", twirpHandler)
+	http.ListenAndServe(":3000", internal.WrapWithIP(twirpHandler))
 }
