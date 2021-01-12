@@ -9,12 +9,12 @@ import (
 	"github.com/tullo/microservice/rpc/stats"
 )
 
-// New creates a Stats RPC client
+// New creates a Stats RPC client.
 func New() stats.StatsService {
 	return NewCustom("http://stats.service:3000", &http.Client{})
 }
 
-// NewCustom creates a Stats RPC client with custom Address/HTTP Client
+// NewCustom creates a Stats RPC client with custom Address/HTTP Client.
 func NewCustom(addr string, client stats.HTTPClient) stats.StatsService {
 	return stats.NewStatsServiceJSONClient(addr, client)
 }

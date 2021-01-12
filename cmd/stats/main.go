@@ -4,20 +4,40 @@ package main
 // generator and template: templates/cmd_main.go.tpl
 
 import (
-	"context"
+	"flag"
 	"log"
 
 	"net/http"
 
+	"github.com/SentimensRG/sigctx"
 	_ "github.com/go-sql-driver/mysql"
-
+	"github.com/tullo/microservice/db"
 	"github.com/tullo/microservice/internal"
 	"github.com/tullo/microservice/rpc/stats"
 	server "github.com/tullo/microservice/server/stats"
 )
 
 func main() {
-	ctx := context.TODO()
+	var config struct {
+		migrate bool
+		opt     db.ConnectionOptions
+	}
+	flag.StringVar(&config.opt.DB.Driver, "migrate-db-driver", "mysql", "Migrations: Database driver")
+	flag.StringVar(&config.opt.DB.DSN, "migrate-db-dsn", "", "Migrations: DSN for database connection")
+	flag.BoolVar(&config.migrate, "migrate", false, "Run migrations?")
+	flag.Parse()
+
+	ctx := sigctx.New()
+
+	if config.migrate {
+		handle, err := db.ConnectWithRetry(ctx, config.opt)
+		if err != nil {
+			log.Fatalf("Error connecting to database: %+v", err)
+		}
+		if err := db.Run("stats", handle); err != nil {
+			log.Fatalf("An error occured: %+v", err)
+		}
+	}
 
 	srv, err := server.New(ctx)
 	if err != nil {

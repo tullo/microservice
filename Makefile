@@ -84,14 +84,17 @@ migrate: $(shell find . -type f -regex ".*migrations.sql" | xargs -n1 -r dirname
 # All the migrations in the second run must be skipped.
 
 migrate.%: export SERVICE = $*
-migrate.%: export MYSQL_ROOT_PASSWORD = default
+migrate.%: DSN = "migrations:migrations@tcp(mysql-test:3306)/migrations"
 migrate.%:
 	@echo migrate.$(SERVICE)
-	mysql -h mysql-test -u root -p$(MYSQL_ROOT_PASSWORD) -e "CREATE DATABASE $(SERVICE);"
-	./build/db-migrate-cli-linux-amd64 -service $(SERVICE) -db-dsn "root:$(MYSQL_ROOT_PASSWORD)@tcp(mysql-test:3306)/$(SERVICE)" -real=false
-	./build/db-migrate-cli-linux-amd64 -service $(SERVICE) -db-dsn "root:$(MYSQL_ROOT_PASSWORD)@tcp(mysql-test:3306)/$(SERVICE)" -real=false
-	./build/db-schema-cli-linux-amd64 -schema $(SERVICE) -db-dsn "root:$(MYSQL_ROOT_PASSWORD)@tcp(mysql-test:3306)/$(SERVICE)" -format go -output server/$(SERVICE)
-	./build/db-schema-cli-linux-amd64 -schema $(SERVICE) -db-dsn "root:$(MYSQL_ROOT_PASSWORD)@tcp(mysql-test:3306)/$(SERVICE)" -format markdown -output docs/schema/$(SERVICE)
+	./build/db-migrate-cli-linux-amd64 -service $(SERVICE) -db-dsn $(DSN) -real=true
+	./build/db-migrate-cli-linux-amd64 -service $(SERVICE) -db-dsn $(DSN) -real=true
+	@mkdir -p server/$(SERVICE)
+	@find server/$(SERVICE) -name types_gen.go -delete
+	@rm -rf docs/schema/$(SERVICE)
+	./build/db-schema-cli-linux-amd64 -service $(SERVICE) -schema migrations -db-dsn $(DSN) -format go -output server/$(SERVICE)
+	./build/db-schema-cli-linux-amd64 -service $(SERVICE) -schema migrations -db-dsn $(DSN) -format markdown -output docs/schema/$(SERVICE)
+	./build/db-schema-cli-linux-amd64 -schema migrations -db-dsn $(DSN) -drop=true
 
 
 

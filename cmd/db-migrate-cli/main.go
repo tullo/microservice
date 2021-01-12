@@ -1,45 +1,44 @@
 package main
 
 import (
+	"context"
 	"flag"
 	"log"
 
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/jmoiron/sqlx"
 	"github.com/tullo/microservice/db"
 )
 
 func main() {
 	var config struct {
-		db struct {
-			DSN    string
-			Driver string
-		}
-		Real    bool
-		Service string
+		opt     db.ConnectionOptions
+		real    bool
+		service string
 	}
-	flag.StringVar(&config.db.Driver, "db-driver", "mysql", "Database driver")
-	flag.StringVar(&config.db.DSN, "db-dsn", "", "DSN for database connection")
-	flag.StringVar(&config.Service, "service", "", "Service name for migrations")
-	flag.BoolVar(&config.Real, "real", false, "false = print migrations, true = run migrations")
+	flag.StringVar(&config.opt.DB.Driver, "db-driver", "mysql", "Database driver")
+	flag.StringVar(&config.opt.DB.DSN, "db-dsn", "", "DSN for database connection")
+	flag.StringVar(&config.service, "service", "", "Service name for migrations")
+	flag.BoolVar(&config.real, "real", false, "false = print migrations, true = run migrations")
 	flag.Parse()
 
-	if config.Service == "" {
+	if config.service == "" {
 		log.Printf("Available migration services: %+v", db.List())
 		log.Fatal()
 	}
 
-	switch config.Real {
+	ctx := context.Background()
+
+	switch config.real {
 	case true:
-		if handle, err := sqlx.Connect(config.db.Driver, config.db.DSN); err != nil {
+		handle, err := db.ConnectWithRetry(ctx, config.opt)
+		if err != nil {
 			log.Fatalf("Error connecting to database: %+v", err)
-		} else {
-			if err := db.Run(config.Service, handle); err != nil {
-				log.Fatalf("An error occured: %+v", err)
-			}
+		}
+		if err := db.Run(config.service, handle); err != nil {
+			log.Fatalf("An error occured: %+v", err)
 		}
 	default:
-		if err := db.Print(config.Service); err != nil {
+		if err := db.Print(config.service); err != nil {
 			log.Fatalf("An error occured: %+v", err)
 		}
 	}

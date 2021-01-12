@@ -104,5 +104,9 @@ func execQuery(db *sqlx.DB, idx int, query string, useLog bool) error {
 		log.Println()
 	}
 
+	if _, err := db.Exec(query); err != nil && !errors.Is(err, sql.ErrNoRows) {
+		return fmt.Errorf("failed to execute a query: %w", err)
+	}
+
 	return nil
 }

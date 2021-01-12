@@ -13,14 +13,7 @@ steps:
   commands:
   - make rpc
   - make templates
-
-- name: migrations
-  image: percona/percona-server:8.0.22
-  user: root
-  pull: always
-  commands:
-  - yum -q -y install make
-  - "bash -c 'while : ; do  sleep 1 ; $(cat < /dev/null > /dev/tcp/mysql-test/3306) && break ; done' 2>/dev/null"
+  - make build-cli
   - make migrate
 
 - name: build
@@ -31,7 +24,6 @@ steps:
   - make tidy
   - make lint
   - make build
-  - make build-cli
 
 services:
 - name: mysql-test
@@ -41,3 +33,6 @@ services:
     - 3306
   environment:
     MYSQL_ROOT_PASSWORD: default
+    MYSQL_USER: migrations
+    MYSQL_PASSWORD: migrations
+    MYSQL_DATABASE: migrations

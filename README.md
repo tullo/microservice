@@ -2,5 +2,8 @@
 
 ```console
 make
-make build; make docker.stats
+make && make docker
+docker-compose up
+
+make build && make docker.stats
 ```
