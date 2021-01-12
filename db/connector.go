@@ -2,12 +2,35 @@ package db
 
 import (
 	"context"
+	"database/sql"
+	"fmt"
 	"log"
 	"time"
 
+	// apm specific wrapper for the go mysql driver
+	_ "go.elastic.co/apm/module/apmsql/mysql"
+
 	"github.com/jmoiron/sqlx"
 	"github.com/pkg/errors"
+	"go.elastic.co/apm/module/apmsql"
 )
+
+// Connector opens a database and pings it using APM SQL wrapper.
+func Connector(ctx context.Context, opt DB) (*sql.DB, error) {
+	log.Println("Connector: apmsql.Open(driver, dsn)", opt.Driver, maskDSN(opt.DSN))
+	db, err := apmsql.Open(opt.Driver, opt.DSN)
+	if err != nil {
+		return nil, fmt.Errorf("failed to open a database: %w", err)
+	}
+
+	if err = db.PingContext(ctx); err != nil {
+		db.Close()
+
+		return nil, fmt.Errorf("failed to ping the database: %w", err)
+	}
+
+	return db, nil
+}
 
 // ConnectWithRetry uses retry options set in ConnectionOptions.
 func ConnectWithRetry(ctx context.Context, options ConnectionOptions) (*sqlx.DB, error) {

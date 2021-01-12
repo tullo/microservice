@@ -7,7 +7,7 @@ require (
 	github.com/go-sql-driver/mysql v1.5.0
 	github.com/golang/protobuf v1.4.3
 	github.com/google/wire v0.4.0
-	github.com/jmoiron/sqlx v1.2.0
+	github.com/jmoiron/sqlx v1.2.1-0.20201120164427-00c6e74d816a
 	github.com/onsi/ginkgo v1.14.2 // indirect
 	github.com/onsi/gomega v1.10.4 // indirect
 	github.com/pkg/errors v0.9.1

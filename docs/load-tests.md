@@ -70,3 +70,20 @@ Transfer/sec:    539.36KB
 
 ---
 
+## 4rd Iteration
+
+```sh
+# ./test-benchmark-service.sh (d60s t4 c100)
+Running 1m test @ http://172.26.0.2:3000/twirp/stats.StatsService/Push
+  4 threads and 100 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency     5.13ms    5.47ms 108.96ms   86.70%
+    Req/Sec     6.39k   594.54     9.31k    77.46%
+  1527397 requests in 1.00m, 158.77MB read
+Requests/sec:  25434.90
+Transfer/sec:      2.64MB
+```
+
+We got more (5x) throughput but SQL traces disappeared in APM transactions view.
+
+![stats service load test](images/StatsService-Push-Transactions.png)

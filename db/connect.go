@@ -2,17 +2,11 @@ package db
 
 import (
 	"context"
-	"database/sql"
-	"fmt"
 	"os"
 	"time"
 
-	// apm specific wrapper for the go mysql driver
-	_ "go.elastic.co/apm/module/apmsql/mysql"
-
 	"github.com/jmoiron/sqlx"
 	"github.com/pkg/errors"
-	"go.elastic.co/apm/module/apmsql"
 )
 
 // Connect connects to a database and produces the handle for injection.
@@ -27,7 +21,7 @@ func Connect(ctx context.Context) (*sqlx.DB, error) {
 		driver = "mysql"
 	}
 
-	options := ConnectionOptions{
+	opt := ConnectionOptions{
 		Retries:        5,
 		RetryDelay:     5 * time.Second,
 		ConnectTimeout: 5 * time.Minute,
@@ -35,22 +29,10 @@ func Connect(ctx context.Context) (*sqlx.DB, error) {
 			DSN:    dsn,
 			Driver: driver,
 		},
-		Connector: func(ctx context.Context, opt DB) (*sql.DB, error) {
-			db, err := apmsql.Open(opt.Driver, opt.DSN)
-			if err != nil {
-				return nil, fmt.Errorf("failed to open a database: %w", err)
-			}
-			if err = db.PingContext(ctx); err != nil {
-				db.Close()
-
-				return nil, fmt.Errorf("failed to ping the database: %w", err)
-			}
-
-			return db, nil
-		},
+		Connector: Connector,
 	}
 
-	return ConnectWithOptions(ctx, options)
+	return ConnectWithOptions(ctx, opt)
 }
 
 // ConnectWithOptions connects to a database host using connection options.
@@ -81,6 +63,7 @@ func connect(ctx context.Context, options ConnectionOptions) (*sqlx.DB, error) {
 		if err == nil {
 			return sqlx.NewDb(handle, db.Driver), nil
 		}
+
 		return nil, errors.WithStack(err)
 	}
 

@@ -3,12 +3,14 @@ package stats
 import (
 	"context"
 	"fmt"
-	"strings"
 	"time"
 
 	"github.com/tullo/microservice/internal"
 	"github.com/tullo/microservice/rpc/stats"
 )
+
+// Keep returning a single object to avoid allocations
+var pushResponseDefault = new(stats.PushResponse)
 
 // Push a record to the incoming log table.
 func (svc *Server) Push(ctx context.Context, r *stats.PushRequest) (*stats.PushResponse, error) {
@@ -25,19 +27,12 @@ func (svc *Server) Push(ctx context.Context, r *stats.PushRequest) (*stats.PushR
 	if err != nil {
 		return nil, fmt.Errorf("failed to generate sonyflake id: %w", err)
 	}
-
 	row.Property = r.Property
 	row.PropertySection = r.Section
 	row.PropertyID = r.Id
 	row.RemoteIP = internal.GetIPFromContext(ctx)
 
-	fields := strings.Join(IncomingFields, ",")
-	named := ":" + strings.Join(IncomingFields, ",:")
-
-	query := fmt.Sprintf("insert into %s (%s) values (%s)", IncomingTable, fields, named)
-	_, err = svc.db.NamedExecContext(ctx, query, row)
-
-	return new(stats.PushResponse), err
+	return pushResponseDefault, svc.flusher.Push(&row)
 }
 
 func validate(r *stats.PushRequest) error {
