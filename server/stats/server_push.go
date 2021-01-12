@@ -12,8 +12,13 @@ import (
 
 // Push a record to the incoming log table.
 func (svc *Server) Push(ctx context.Context, r *stats.PushRequest) (*stats.PushResponse, error) {
-	var err error
 	var row Incoming
+
+	var err error
+	if err := validate(r); err != nil {
+		return nil, err
+	}
+
 	row.SetStamp(time.Now())
 	row.ID, err = svc.sonyflake.NextID()
 	if err != nil {
@@ -31,5 +36,22 @@ func (svc *Server) Push(ctx context.Context, r *stats.PushRequest) (*stats.PushR
 	query := fmt.Sprintf("insert into %s (%s) values (%s)", IncomingTable, fields, named)
 	_, err = svc.db.NamedExecContext(ctx, query, row)
 
-	return nil, err
+	return new(stats.PushResponse), err
+}
+
+func validate(r *stats.PushRequest) error {
+	if r.Property == "" {
+		return errMissingProperty
+	}
+	if r.Property != "news" {
+		return errInvalidProperty
+	}
+	if r.Id < 1 {
+		return errMissingID
+	}
+	if r.Section < 1 {
+		return errMissingSection
+	}
+
+	return nil
 }
