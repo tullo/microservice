@@ -12,13 +12,14 @@ import (
 
 // Push a record to the incoming log table.
 func (svc *Server) Push(ctx context.Context, r *stats.PushRequest) (*stats.PushResponse, error) {
-	var row Incoming
+	ctx = internal.ContextWithoutCancel(ctx)
 
 	var err error
 	if err := validate(r); err != nil {
 		return nil, err
 	}
 
+	var row Incoming
 	row.SetStamp(time.Now())
 	row.ID, err = svc.sonyflake.NextID()
 	if err != nil {

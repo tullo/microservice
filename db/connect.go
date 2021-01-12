@@ -64,6 +64,18 @@ func ConnectWithOptions(ctx context.Context, options ConnectionOptions) (*sqlx.D
 	}
 	db.DSN = cleanDSN(db.DSN)
 
+	con, err := connect(ctx, options)
+	if err != nil {
+		return nil, err
+	}
+	con.SetMaxOpenConns(800)
+	con.SetMaxIdleConns(800)
+
+	return con, nil
+}
+
+func connect(ctx context.Context, options ConnectionOptions) (*sqlx.DB, error) {
+	db := options.DB
 	if options.Connector != nil {
 		handle, err := options.Connector(ctx, db)
 		if err == nil {
