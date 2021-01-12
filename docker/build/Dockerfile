@@ -33,3 +33,6 @@ RUN GO111MODULE=on go get github.com/josharian/impl
 
 # Install google wire for DI
 RUN GO111MODULE=on go get github.com/google/wire/cmd/wire
+
+# Install golint
+RUN go get golang.org/x/lint/golint

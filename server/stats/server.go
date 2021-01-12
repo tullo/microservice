@@ -14,6 +14,7 @@ type Server struct {
 
 var _ stats.StatsService = &Server{}
 
+// Push a record to the incoming log table.
 func (svc *Server) Push(_ context.Context, _ *stats.PushRequest) (*stats.PushResponse, error) {
 	panic("not implemented") // TODO: Implement
 }

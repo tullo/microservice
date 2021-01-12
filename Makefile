@@ -3,6 +3,9 @@
 all:
 	@drone exec
 
+lint:
+	golint -set_exit_status ./...
+
 tidy:
 	go mod tidy
 	go fmt ./...
