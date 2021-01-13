@@ -8,6 +8,7 @@ package haberdasher
 import (
 	"context"
 	"github.com/tullo/microservice/db"
+	"github.com/tullo/microservice/inject"
 )
 
 // Injectors from wire.go:
@@ -17,8 +18,10 @@ func New(ctx context.Context) (*Server, error) {
 	if err != nil {
 		return nil, err
 	}
+	sonyflake := inject.Sonyflake()
 	server := &Server{
-		db: sqlxDB,
+		db:        sqlxDB,
+		sonyflake: sonyflake,
 	}
 	return server, nil
 }
