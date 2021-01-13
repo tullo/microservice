@@ -4,10 +4,6 @@ package stats;
 
 option go_package = "github.com/tullo/microservice/rpc/stats";
 
-service StatsService {
-    rpc Push(PushRequest) returns (PushResponse);
-}
-
 message PushRequest {
     string property = 1;
     uint32 section = 2;
@@ -15,3 +11,7 @@ message PushRequest {
 }
 
 message PushResponse {}
+
+service StatsService {
+    rpc Push(PushRequest) returns (PushResponse);
+}

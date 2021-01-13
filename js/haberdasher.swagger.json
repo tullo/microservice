@@ -1,0 +1,77 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "haberdasher.proto",
+    "version": "version not set"
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/twirp/haberdasher.HaberdasherService/MakeHat": {
+      "post": {
+        "summary": "MakeHat produces a hat of mysterious, randomly-selected color!",
+        "operationId": "MakeHat",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/haberdasherHat"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/haberdasherSize"
+            }
+          }
+        ],
+        "tags": [
+          "HaberdasherService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "haberdasherHat": {
+      "type": "object",
+      "properties": {
+        "size": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The size of a hat should always be in centimeters."
+        },
+        "color": {
+          "type": "string",
+          "description": "The color of a hat will never be 'invisible', but other than\nthat, anything is fair game."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of a hat is it's type. Like, 'bowler', or something."
+        }
+      },
+      "description": "A Hat is a piece of headwear made by a Haberdasher."
+    },
+    "haberdasherSize": {
+      "type": "object",
+      "properties": {
+        "centimeters": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "description": "Size is passed when requesting a new hat to be made. It's always measured in\ncentimeters."
+    }
+  }
+}
