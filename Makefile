@@ -21,10 +21,10 @@ rpc: $(shell ls -d rpc/* | sed -e 's/\//./g')
 rpc.%: SERVICE=$*
 rpc.%:
 	@echo '> protoc gen for $(SERVICE)'
+	@mkdir rpc js
 	@protoc --proto_path=$(GOPATH)/src:. -Irpc/$(SERVICE) --go_out=plugins=grpc,paths=source_relative:. rpc/$(SERVICE)/$(SERVICE).proto
 	@protoc --proto_path=$(GOPATH)/src:. -Irpc/$(SERVICE) --twirp_out=paths=source_relative:. rpc/$(SERVICE)/$(SERVICE).proto
-#	@protoc --proto_path=$(GOPATH)/src:. -Irpc/$(SERVICE) --twirp_swagger_out=js --twirp_js_out=js --js_out=import_style=commonjs,binary:js $(SERVICE).proto
-
+	@protoc --proto_path=$(GOPATH)/src:. -Irpc/$(SERVICE) --twirp_swagger_out=js --twirp_js_out=js --js_out=import_style=commonjs,binary:js $(SERVICE).proto
 
 # build cmd/ go binaries ==================================== [dynamic targets]
 
