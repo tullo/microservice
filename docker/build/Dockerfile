@@ -28,6 +28,10 @@ RUN GO111MODULE=on go get github.com/golang/protobuf/protoc-gen-go
 # Install protoc-gen-twirp
 RUN GO111MODULE=on go get github.com/twitchtv/twirp/protoc-gen-twirp
 
+# Install additional twirp outputs
+RUN GO111MODULE=on go get github.com/thechriswalker/protoc-gen-twirp_js
+RUN GO111MODULE=on go get github.com/elliots/protoc-gen-twirp_swagger
+
 # Install interface scaffolder
 RUN GO111MODULE=on go get github.com/josharian/impl
 
@@ -36,3 +40,6 @@ RUN GO111MODULE=on go get github.com/google/wire/cmd/wire
 
 # Install golint
 RUN go get golang.org/x/lint/golint
+
+# GolangCI lint
+RUN cd /usr/local && curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.35.0

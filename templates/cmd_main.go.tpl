@@ -4,18 +4,17 @@ package main
 // generator and template: templates/cmd_main.go.tpl
 
 import (
-	"flag"
 	"log"
 
 	"net/http"
 
 	"github.com/SentimensRG/sigctx"
-	_ "github.com/go-sql-driver/mysql"
+	"github.com/namsral/flag"
 	"github.com/pkg/errors"
 	"${MODULE}/db"
 	"${MODULE}/internal"
 	"${MODULE}/rpc/${SERVICE}"
-	server "github.com/tullo/microservice/server/stats"
+	server "${MODULE}/server/${SERVICE}"
 )
 
 func main() {
@@ -58,5 +57,4 @@ func main() {
 
 	srv.Shutdown()
 	log.Println("Done.")
-
 }

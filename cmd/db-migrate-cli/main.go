@@ -1,10 +1,10 @@
 package main
 
 import (
-	"context"
 	"flag"
 	"log"
 
+	"github.com/SentimensRG/sigctx"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/tullo/microservice/db"
 )
@@ -26,7 +26,7 @@ func main() {
 		log.Fatal()
 	}
 
-	ctx := context.Background()
+	ctx := sigctx.New()
 
 	switch config.real {
 	case true:
@@ -35,11 +35,21 @@ func main() {
 			log.Fatalf("Error connecting to database: %+v", err)
 		}
 		if err := db.Run(config.service, handle); err != nil {
-			log.Fatalf("An error occured: %+v", err)
+			log.Fatalf("An error occurred: %+v", err)
 		}
 	default:
 		if err := db.Print(config.service); err != nil {
-			log.Fatalf("An error occured: %+v", err)
+			log.Fatalf("An error occurred: %+v", err)
 		}
 	}
 }
+
+/*
+func main() {
+	log.Printf("Migration projects: %+v", db.List())
+	log.Println("Migration statements for stats")
+	if err := db.Print("stats"); err != nil {
+		log.Printf("An error occurred: %+v", err)
+	}
+}
+*/

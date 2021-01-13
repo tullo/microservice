@@ -71,7 +71,7 @@ func migrate(db *sqlx.DB, fs *FS, project, filename string) error {
 		}
 	}
 
-	return err
+	return errors.Wrap(err, "migrateUp failed")
 }
 
 func migrateUp(db *sqlx.DB, fs *FS, mig *migration, useLog bool) error {

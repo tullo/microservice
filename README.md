@@ -1,6 +1,8 @@
 # microservice
 
 ```console
+go get github.com/jmoiron/sqlx@master # batch insert
+
 make
 make && make docker
 

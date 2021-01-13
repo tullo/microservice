@@ -4,7 +4,9 @@ all:
 	@drone exec
 
 lint:
-	golint -set_exit_status ./...
+	golangci-lint run -E depguard,dupl,errcheck,errorlint,forbidigo,gocritic,godot,gosec,interfacer,nakedret,nlreturn,misspell,sqlclosecheck,whitespace,wrapcheck ./...
+#	golint -set_exit_status ./...
+
 
 tidy:
 	go mod tidy

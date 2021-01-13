@@ -9,7 +9,7 @@ import (
 	"github.com/tullo/microservice/rpc/stats"
 )
 
-// Keep returning a single object to avoid allocations
+// Keep returning a single object to avoid allocations.
 var pushResponseDefault = new(stats.PushResponse)
 
 // Push a record to the incoming log table.

@@ -30,9 +30,10 @@ func WrapWithIP(h http.Handler) http.Handler {
 	})
 }
 
-// WrapAll wraps a http.Handler with all needed handlers for our service
+// WrapAll wraps a http.Handler with all needed handlers for our service.
 func WrapAll(h http.Handler) http.Handler {
 	h = WrapWithIP(h)
 	h = apmhttp.Wrap(h)
+
 	return h
 }

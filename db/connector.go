@@ -7,7 +7,7 @@ import (
 	"log"
 	"time"
 
-	// apm specific wrapper for the go mysql driver
+	// apm specific wrapper for the go mysql driver.
 	_ "go.elastic.co/apm/module/apmsql/mysql"
 
 	"github.com/jmoiron/sqlx"
