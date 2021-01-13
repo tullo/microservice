@@ -1,33 +1,38 @@
 version: '3.4'
 
+# cat .env
+# https://dev.mysql.com/doc/refman/8.0/en/charset-mysql.html
+# https://dev.mysql.com/doc/refman/8.0/en/charset-collation-names.html
+# https://dev.mysql.com/doc/refman/8.0/en/charset-server.html
+# https://www.mysqltutorial.org/mysql-collation/
+
 services:
   apm:
     build:
       context: docker/apm
 
   db:
+    image: percona/percona-server:8.0.22
     command:
+    - --character-set-server=utf8mb4
+    - --collation-server=utf8mb4_danish_ci
+    - --default-authentication-plugin=mysql_native_password
     - --max_connections=1000
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "true"
-      MYSQL_DATABASE: stats
-      MYSQL_PASSWORD: stats
-      MYSQL_USER: stats
-    image: percona/percona-server:8.0.22
     restart: always
+    volumes:
+    - ./docker/dev/initdb.d:/docker-entrypoint-initdb.d:rw
 
   elk:
     image: sebp/elk:7.10.0
     ports:
     - published: 5601
       target: 5601
-    - published: 9200
-      target: 9200
-    - published: 5044
-      target: 5044
     restart: always
 
   stats:
+    image: ${IMAGE_PREFIX}stats
     command:
     - --migrate-db-dsn=stats:stats@tcp(db:3306)/stats
     - --migrate
@@ -36,5 +41,4 @@ services:
       ELASTIC_APM_SERVER_URL: http://apm:8200
       ELASTIC_APM_SERVICE_NAME: stats
 #     ELASTIC_APM_SPAN_FRAMES_MIN_DURATION=5ms  https://www.elastic.co/guide/en/apm/agent/go/current/configuration.html
-    image: tullo/service-stats
     restart: always
