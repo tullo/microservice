@@ -33,6 +33,7 @@ services:
 
   stats:
     image: ${IMAGE_PREFIX}stats
+#    image: titpetric/service-stats
     command:
     - --migrate-db-dsn=stats:stats@tcp(db:3306)/stats
     - --migrate
@@ -41,4 +42,15 @@ services:
       ELASTIC_APM_SERVER_URL: http://apm:8200
       ELASTIC_APM_SERVICE_NAME: stats
 #     ELASTIC_APM_SPAN_FRAMES_MIN_DURATION=5ms  https://www.elastic.co/guide/en/apm/agent/go/current/configuration.html
+    restart: always
+
+  hd:
+    image: ${IMAGE_PREFIX}haberdasher
+    command:
+    - --migrate-db-dsn=haberdasher:haberdasher@tcp(db:3306)/haberdasher
+    - --migrate
+    environment:
+      DB_DSN: haberdasher:haberdasher@tcp(db:3306)/haberdasher
+      ELASTIC_APM_SERVER_URL: http://apm:8200
+      ELASTIC_APM_SERVICE_NAME: haberdasher
     restart: always

@@ -5,6 +5,7 @@ package main
 
 import (
 	"log"
+	"os"
 
 	"net/http"
 
@@ -44,7 +45,7 @@ func main() {
 		log.Fatalf("Error in service.New(): %+v", err)
 	}
 
-	twirpHandler := haberdasher.NewHaberdasherServiceServer(srv, internal.NewServerHooks())
+	twirpHandler := haberdasher.NewHaberdasherServiceServer(srv, internal.NewServerHooks(os.Stderr))
 
 	go func() {
 		log.Println("Starting service on port :3000")

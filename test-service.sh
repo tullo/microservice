@@ -21,3 +21,13 @@ curl -s -H 'Content-Type: application/json' -H "X-Real-IP: 9.9.9.9" $url -d "$pa
 
 docker-compose -p microservice -f docker/docker-compose-migrations.yml \
   exec db mysql -u root stats -e 'select * from incoming'
+
+
+function get_hd_ip {
+	docker inspect \
+		microservice_hd_1 | \
+	jq -r '.[0].NetworkSettings.Networks["microservice_default"]'.IPAddress
+}
+
+hd_url="http://$(get_hd_ip):3000/twirp/haberdasher.HaberdasherService/MakeHat"
+curl -H 'Content-Type: application/json' $hd_url -d '{"centimeters": 61}' | jq .
