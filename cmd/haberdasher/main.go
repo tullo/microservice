@@ -45,11 +45,11 @@ func main() {
 		log.Fatalf("Error in service.New(): %+v", err)
 	}
 
-	twirpHandler := haberdasher.NewHaberdasherServiceServer(srv, internal.NewServerHooks(os.Stderr))
+	twirpServer := haberdasher.NewHaberdasherServiceServer(srv, internal.NewServerHooks(os.Stderr))
 
 	go func() {
 		log.Println("Starting service on port :3000")
-		err := http.ListenAndServe(":3000", internal.WrapAll(twirpHandler))
+		err := http.ListenAndServe(":3000", internal.WrapAll(twirpServer))
 		if !errors.Is(err, http.ErrServerClosed) {
 			log.Println("Server error:", err)
 		}
