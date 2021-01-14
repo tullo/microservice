@@ -260,7 +260,7 @@ proto.haberdasher.Hat.deserializeBinaryFromReader = function(msg, reader) {
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = /** @type {number} */ (reader.readInt32());
+      var value = /** @type {number} */ (reader.readUint32());
       msg.setSize(value);
       break;
     case 2:
@@ -302,7 +302,7 @@ proto.haberdasher.Hat.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getSize();
   if (f !== 0) {
-    writer.writeInt32(
+    writer.writeUint32(
       1,
       f
     );
@@ -325,7 +325,7 @@ proto.haberdasher.Hat.serializeBinaryToWriter = function(message, writer) {
 
 
 /**
- * optional int32 size = 1;
+ * optional uint32 size = 1;
  * @return {number}
  */
 proto.haberdasher.Hat.prototype.getSize = function() {

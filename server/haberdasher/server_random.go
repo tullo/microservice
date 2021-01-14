@@ -5,7 +5,9 @@ import (
 	"crypto/rand"
 	"fmt"
 	"math/big"
+	"strings"
 
+	"github.com/pkg/errors"
 	"github.com/tullo/microservice/rpc/haberdasher"
 	"github.com/twitchtv/twirp"
 )
@@ -15,20 +17,39 @@ func (svc *Server) MakeHat(ctx context.Context, size *haberdasher.Size) (*haberd
 	if size.Centimeters <= 0 {
 		return nil, twirp.InvalidArgumentError("Centimeters", "I can't make a hat that small!")
 	}
-	ci, err := randomInt(5)
+	ci, err := randomInt(int64(len(color)))
 	if err != nil {
-		panic(err)
+		return nil, errors.WithStack(err)
 	}
 
-	ni, err := randomInt(4)
+	ni, err := randomInt(int64(len(name)))
 	if err != nil {
-		panic(err)
+		return nil, errors.WithStack(err)
+	}
+
+	hat := Hat{
+		Size:  uint32(size.Centimeters),
+		Color: color[ci],
+		Name:  name[ni],
+	}
+	hat.ID, err = svc.sonyflake.NextID()
+	if err != nil {
+		return nil, fmt.Errorf("failed to generate sonyflake id: %w", err)
+	}
+
+	fields := strings.Join(HatFields, ",")
+	named := ":" + strings.Join(HatFields, ",:")
+
+	query := fmt.Sprintf("insert into %s (%s) values (%s)", HatTable, fields, named)
+	_, err = svc.db.NamedExecContext(ctx, query, &hat)
+	if err != nil {
+		return nil, errors.Wrap(err, fmt.Sprintf("error inserting hat: %s", query))
 	}
 
 	return &haberdasher.Hat{
-		Size:  size.Centimeters,
-		Color: []string{"white", "black", "brown", "red", "blue"}[ci],
-		Name:  []string{"bowler", "baseball cap", "top hat", "derby"}[ni],
+		Size:  hat.Size,
+		Color: hat.Color,
+		Name:  hat.Name,
 	}, nil
 }
 

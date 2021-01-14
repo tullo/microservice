@@ -44,7 +44,7 @@ func main() {
 		log.Fatalf("Error in service.New(): %+v", err)
 	}
 
-	twirpServer := stats.NewStatsServiceServer(srv, internal.NewServerHooks(nil))
+	twirpServer := stats.NewStatsServiceServer(srv, internal.NewServerHooks())
 
 	go func() {
 		log.Println("Starting service on port :3000")
