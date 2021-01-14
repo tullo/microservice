@@ -4,11 +4,14 @@ import (
 	"context"
 	"crypto/rand"
 	"fmt"
+	"log"
 	"math/big"
 	"strings"
 
 	"github.com/pkg/errors"
+	"github.com/tullo/microservice/inject"
 	"github.com/tullo/microservice/rpc/haberdasher"
+	"github.com/tullo/microservice/rpc/stats"
 	"github.com/twitchtv/twirp"
 )
 
@@ -37,6 +40,8 @@ func (svc *Server) MakeHat(ctx context.Context, size *haberdasher.Size) (*haberd
 		return nil, fmt.Errorf("failed to generate sonyflake id: %w", err)
 	}
 
+	go pushStat(int(hat.ID))
+
 	fields := strings.Join(HatFields, ",")
 	named := ":" + strings.Join(HatFields, ",:")
 
@@ -60,4 +65,18 @@ func randomInt(max int64) (int64, error) {
 	}
 
 	return n.Int64(), nil
+}
+
+func pushStat(id int) {
+	c := inject.NewHTTPClient()
+	s := stats.NewStatsServiceProtobufClient("http://stats:3000", c)
+	r := stats.PushRequest{
+		Id:       uint32(id),
+		Property: "news",
+		Section:  99,
+	}
+	_, err := s.Push(context.Background(), &r)
+	if err != nil {
+		log.Println("failed to push stat", err)
+	}
 }
