@@ -19,6 +19,7 @@ Transfer/sec:      1.19MB
 Out of `108351` requests we have `60979` non-2xx or 3xx responses.
 
 APM: Exception stack trace
+
 ```
 twirp error internal: dial tcp 192.168.176.5:3306: operation was canceled
 
@@ -87,3 +88,62 @@ Transfer/sec:      2.64MB
 We got more (5x) throughput but SQL traces disappeared in APM transactions view.
 
 ![stats service load test](images/StatsService-Push-Transactions.png)
+
+## Load Tests Haberdasher Servie
+
+```sh
+$(go env GOPATH)/bin/hey \
+	-h2 \
+	-T 'application/json' \
+	-d '{"centimeters": 59}' \
+	-m POST \
+	-z 15s \
+	http://172.29.0.2:3000/twirp/haberdasher.HaberdasherService/MakeHat
+```
+
+```text
+Summary:
+  Total:	15.0150 secs
+  Slowest:	0.1128 secs
+  Fastest:	0.0059 secs
+  Average:	0.0164 secs
+  Requests/sec:	3048.2246
+  
+  Total data:	2009798 bytes
+  Size/request:	43 bytes
+
+Response time histogram:
+  0.006 [1]	|
+  0.017 [26926]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  0.027 [18326]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  0.038 [265]	|
+  0.049 [58]	|
+  0.059 [95]	|
+  0.070 [11]	|
+  0.081 [10]	|
+  0.091 [9]	|
+  0.102 [57]	|
+  0.113 [11]	|
+
+
+Latency distribution:
+  10% in 0.0122 secs
+  25% in 0.0140 secs
+  50% in 0.0159 secs
+  75% in 0.0181 secs
+  90% in 0.0204 secs
+  95% in 0.0223 secs
+  99% in 0.0277 secs
+
+Details (average, fastest, slowest):
+  DNS+dialup:	0.0000 secs, 0.0059 secs, 0.1128 secs
+  DNS-lookup:	0.0000 secs, 0.0000 secs, 0.0000 secs
+  req write:	0.0000 secs, 0.0000 secs, 0.0011 secs
+  resp wait:	0.0163 secs, 0.0058 secs, 0.1128 secs
+  resp read:	0.0000 secs, 0.0000 secs, 0.0012 secs
+
+Status code distribution:
+  [200]	45769 responses
+```
+
+----
