@@ -10,8 +10,6 @@ import (
 	"go.elastic.co/apm"
 )
 
-const hooksCtxKey ctxKey = 2
-
 // NewServerHooks provides an error logging hook with Elastic APM.
 func NewServerHooks() *twirp.ServerHooks {
 	return &twirp.ServerHooks{
