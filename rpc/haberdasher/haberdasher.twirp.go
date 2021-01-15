@@ -39,7 +39,7 @@ const _ = twirp.TwirpPackageIsVersion7
 // HaberdasherService Interface
 // ============================
 
-// A HaberdasherService makes hats for clients.
+// Haberdasher service makes hats for clients.
 type HaberdasherService interface {
 	// MakeHat produces a hat of mysterious, randomly-selected color!
 	MakeHat(context.Context, *Size) (*Hat, error)

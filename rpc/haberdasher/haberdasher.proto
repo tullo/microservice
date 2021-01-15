@@ -23,7 +23,7 @@ message Hat {
   string name = 3;
 }
 
-// A HaberdasherService makes hats for clients.
+// Haberdasher service makes hats for clients.
 service HaberdasherService {
   // MakeHat produces a hat of mysterious, randomly-selected color!
   rpc MakeHat(Size) returns (Hat);

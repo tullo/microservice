@@ -9,7 +9,7 @@ var pb = require("./haberdasher_pb.js");
 Object.assign(module.exports, pb);
 
 /**
- * A HaberdasherService makes hats for clients.
+ * Haberdasher service makes hats for clients.
  */
 module.exports.createHaberdasherServiceClient = function(baseurl, extraHeaders, useJSON) {
     var rpc = createClient(baseurl, "haberdasher.HaberdasherService", "v5.0.0",  useJSON, extraHeaders === undefined ? {} : extraHeaders);
