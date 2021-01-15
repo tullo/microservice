@@ -12,7 +12,7 @@ Object.assign(module.exports, pb);
  * Haberdasher service makes hats for clients.
  */
 module.exports.createHaberdasherServiceClient = function(baseurl, extraHeaders, useJSON) {
-    var rpc = createClient(baseurl, "haberdasher.HaberdasherService", "v5.0.0",  useJSON, extraHeaders === undefined ? {} : extraHeaders);
+    var rpc = createClient(baseurl, "tullo.microservice.haberdasher.HaberdasherService", "v5.0.0",  useJSON, extraHeaders === undefined ? {} : extraHeaders);
     return {
         /**
          * MakeHat produces a hat of mysterious, randomly-selected color!

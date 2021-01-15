@@ -28,7 +28,7 @@ function get_hd_ip {
 		microservice_hd_1 | jq -r '.[0].NetworkSettings.Networks["microservice_default"]'.IPAddress
 }
 
-url="http://$(get_hd_ip):3000/twirp/haberdasher.HaberdasherService/MakeHat"
+url="http://$(get_hd_ip):3000/twirp/tullo.microservice.haberdasher.HaberdasherService/MakeHat"
 $(go env GOPATH)/bin/hey \
 	-h2 \
 	-T 'application/json' \

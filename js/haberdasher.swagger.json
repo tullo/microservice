@@ -15,7 +15,7 @@
     "application/json"
   ],
   "paths": {
-    "/twirp/haberdasher.HaberdasherService/MakeHat": {
+    "/twirp/tullo.microservice.haberdasher.HaberdasherService/MakeHat": {
       "post": {
         "summary": "MakeHat produces a hat of mysterious, randomly-selected color!",
         "operationId": "MakeHat",

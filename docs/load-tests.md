@@ -98,7 +98,7 @@ $(go env GOPATH)/bin/hey \
 	-d '{"centimeters": 59}' \
 	-m POST \
 	-z 15s \
-	http://172.29.0.2:3000/twirp/haberdasher.HaberdasherService/MakeHat
+	http://172.29.0.2:3000/twirp/tullo.microservice.haberdasher.HaberdasherService/MakeHat
 ```
 
 ```text

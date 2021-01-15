@@ -40,7 +40,7 @@ function get_hd_ip {
 		microservice_hd_1 | jq -r '.[0].NetworkSettings.Networks["microservice_default"]'.IPAddress
 }
 
-hd_url="http://$(get_hd_ip):3000/twirp/haberdasher.HaberdasherService/MakeHat"
+hd_url="http://$(get_hd_ip):3000/twirp/tullo.microservice.haberdasher.HaberdasherService/MakeHat"
 payload='{
   "centimeters": 61
 }'

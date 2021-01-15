@@ -1,13 +1,13 @@
 syntax = "proto3";
 
-package haberdasher;
+package tullo.microservice.haberdasher;
 
-option go_package = "github.com/tullo/microservice/rpc/haberdasher";
+option go_package = "haberdasher";
 
 // Size is passed when requesting a new hat to be made. It's always measured in
 // centimeters.
 message Size {
-    int32 centimeters = 1;
+    int32 centimeters = 1; // required
   }
   
 // A Hat is a piece of headwear made by a Haberdasher.
