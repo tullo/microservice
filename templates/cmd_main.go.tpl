@@ -13,8 +13,8 @@ import (
 	"github.com/pkg/errors"
 	"${MODULE}/db"
 	"${MODULE}/internal"
-	"${MODULE}/rpc/${SERVICE}"
-	server "${MODULE}/server/${SERVICE}"
+	pb "${MODULE}/rpc/${SERVICE}"
+	"${MODULE}/server/${SERVICE}"
 )
 
 func main() {
@@ -39,12 +39,12 @@ func main() {
 		}
 	}
 
-	srv, err := server.New(ctx)
+	srv, err := ${SERVICE}.New(ctx)
 	if err != nil {
 		log.Fatalf("Error in service.New(): %+v", err)
 	}
 
-	twirpServer := ${SERVICE}.New${SERVICE_CAMEL}ServiceServer(srv, internal.NewServerHooks())
+	twirpServer := pb.New${SERVICE_CAMEL}ServiceServer(srv, internal.NewServerHooks())
 
 	go func() {
 		log.Println("Starting service on port :3000")

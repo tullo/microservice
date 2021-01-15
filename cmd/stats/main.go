@@ -13,8 +13,8 @@ import (
 	"github.com/pkg/errors"
 	"github.com/tullo/microservice/db"
 	"github.com/tullo/microservice/internal"
-	"github.com/tullo/microservice/rpc/stats"
-	server "github.com/tullo/microservice/server/stats"
+	pb "github.com/tullo/microservice/rpc/stats"
+	"github.com/tullo/microservice/server/stats"
 )
 
 func main() {
@@ -39,12 +39,12 @@ func main() {
 		}
 	}
 
-	srv, err := server.New(ctx)
+	srv, err := stats.New(ctx)
 	if err != nil {
 		log.Fatalf("Error in service.New(): %+v", err)
 	}
 
-	twirpServer := stats.NewStatsServiceServer(srv, internal.NewServerHooks())
+	twirpServer := pb.NewStatsServiceServer(srv, internal.NewServerHooks())
 
 	go func() {
 		log.Println("Starting service on port :3000")

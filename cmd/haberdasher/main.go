@@ -13,8 +13,8 @@ import (
 	"github.com/pkg/errors"
 	"github.com/tullo/microservice/db"
 	"github.com/tullo/microservice/internal"
-	"github.com/tullo/microservice/rpc/haberdasher"
-	server "github.com/tullo/microservice/server/haberdasher"
+	pb "github.com/tullo/microservice/rpc/haberdasher"
+	"github.com/tullo/microservice/server/haberdasher"
 )
 
 func main() {
@@ -39,12 +39,12 @@ func main() {
 		}
 	}
 
-	srv, err := server.New(ctx)
+	srv, err := haberdasher.New(ctx)
 	if err != nil {
 		log.Fatalf("Error in service.New(): %+v", err)
 	}
 
-	twirpServer := haberdasher.NewHaberdasherServiceServer(srv, internal.NewServerHooks())
+	twirpServer := pb.NewHaberdasherServiceServer(srv, internal.NewServerHooks())
 
 	go func() {
 		log.Println("Starting service on port :3000")
