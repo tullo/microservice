@@ -10,7 +10,7 @@ function get_stats_ip {
 		microservice_stats_1 | jq -r '.[0].NetworkSettings.Networks["microservice_default"]'.IPAddress
 }
 
-url="http://$(get_stats_ip):3000/twirp/stats.StatsService/Push"
+url="http://$(get_stats_ip):3000/twirp/tullo.microservice.stats.StatsService/Push"
 
 payload='{
   "property": "news",

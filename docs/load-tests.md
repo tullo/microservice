@@ -4,7 +4,7 @@
 
 ```sh
 # ./test-benchmark-service.sh (d15s t4 c400)
-Running 15s test @ http://192.168.176.2:3000/twirp/stats.StatsService/Push
+Running 15s test @ http://192.168.176.2:3000/twirp/tullo.microservice.stats.StatsService/Push
   4 threads and 400 connections
   Thread Stats   Avg      Stdev     Max   +/- Stdev
     Latency    98.90ms  163.43ms   1.13s    91.93%
@@ -39,7 +39,7 @@ wrap.go in WrapWithIP.func1 at line 29
 
 ```sh
 # ./test-benchmark-service.sh (d15s t4 c400)
-Running 15s test @ http://192.168.240.3:3000/twirp/stats.StatsService/Push
+Running 15s test @ http://192.168.240.3:3000/twirp/tullo.microservice.stats.StatsService/Push
   4 threads and 400 connections
   Thread Stats   Avg      Stdev     Max   +/- Stdev
     Latency   150.09ms  190.97ms   1.94s    88.03%
@@ -59,7 +59,7 @@ Out of `59292` requests we still have `3078` non-2xx or 3xx responses and stack 
 
 ```sh
 # ./test-benchmark-service.sh (d60s t4 c100)
-Running 1m test @ http://172.22.0.2:3000/twirp/stats.StatsService/Push
+Running 1m test @ http://172.22.0.2:3000/twirp/tullo.microservice.stats.StatsService/Push
   4 threads and 100 connections
   Thread Stats   Avg      Stdev     Max   +/- Stdev
     Latency    20.09ms    8.38ms 196.03ms   90.40%
@@ -75,7 +75,7 @@ Transfer/sec:    539.36KB
 
 ```sh
 # ./test-benchmark-service.sh (d60s t4 c100)
-Running 1m test @ http://172.26.0.2:3000/twirp/stats.StatsService/Push
+Running 1m test @ http://172.26.0.2:3000/twirp/tullo.microservice.stats.StatsService/Push
   4 threads and 100 connections
   Thread Stats   Avg      Stdev     Max   +/- Stdev
     Latency     5.13ms    5.47ms 108.96ms   86.70%

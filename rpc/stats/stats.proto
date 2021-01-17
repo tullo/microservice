@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-package stats;
+package tullo.microservice.stats;
 
-option go_package = "github.com/tullo/microservice/rpc/stats";
+option go_package = "rpc/stats";
 
 message PushRequest {
     string property = 1;

@@ -12,7 +12,7 @@ Object.assign(module.exports, pb);
  * Creates a new StatsServiceClient
  */
 module.exports.createStatsServiceClient = function(baseurl, extraHeaders, useJSON) {
-    var rpc = createClient(baseurl, "stats.StatsService", "v5.0.0",  useJSON, extraHeaders === undefined ? {} : extraHeaders);
+    var rpc = createClient(baseurl, "tullo.microservice.stats.StatsService", "v5.0.0",  useJSON, extraHeaders === undefined ? {} : extraHeaders);
     return {
         push: function(data) { return rpc("Push", data, pb.PushResponse); }
     }

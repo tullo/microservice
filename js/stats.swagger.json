@@ -15,7 +15,7 @@
     "application/json"
   ],
   "paths": {
-    "/twirp/stats.StatsService/Push": {
+    "/twirp/tullo.microservice.stats.StatsService/Push": {
       "post": {
         "operationId": "Push",
         "responses": {
