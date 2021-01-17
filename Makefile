@@ -3,6 +3,10 @@
 all:
 	@drone exec
 
+chown:
+	@sudo chown -R ${USER}:${USER} build/ client/ cmd/ db/ docs/ docker/dev/ rpc/ server/
+	@echo OK.
+
 lint:
 	golangci-lint run -E depguard,dupl,errcheck,errorlint,forbidigo,gocritic,godot,gosec,interfacer,nakedret,nlreturn,misspell,sqlclosecheck,whitespace,wrapcheck ./...
 #	golint -set_exit_status ./...
