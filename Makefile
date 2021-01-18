@@ -5,7 +5,7 @@ all:
 #	drone exec --pipeline build --resume-at tidy
 
 chown:
-	@sudo chown -R ${USER}:${USER} build/ client/ cmd/ db/ docs/ docker/dev/ rpc/ server/
+	@sudo chown -R ${USER}:${USER} build/ client/ cmd/ db/ docs/ docker/dev/ js/ rpc/ server/
 	@echo OK.
 
 lint:
