@@ -2,6 +2,7 @@
 
 all:
 	@drone exec
+#	drone exec --pipeline build --resume-at tidy
 
 chown:
 	@sudo chown -R ${USER}:${USER} build/ client/ cmd/ db/ docs/ docker/dev/ rpc/ server/
