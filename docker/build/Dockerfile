@@ -43,3 +43,8 @@ RUN go get golang.org/x/lint/golint
 
 # GolangCI lint
 RUN cd /usr/local && curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.35.0
+
+RUN useradd -m -U -s /bin/bash -u 1000 builder
+USER builder
+WORKDIR /home/builder
+ENV GOPATH /home/builder/go

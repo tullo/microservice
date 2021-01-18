@@ -10,6 +10,7 @@ steps:
 - name: codegen
   image: tullo/microservice-build
   pull: always
+  user: 1000
   commands:
   - make rpc
   - make templates
@@ -19,6 +20,7 @@ steps:
 - name: build
   image: tullo/microservice-build
   pull: always
+  user: 1000
   commands:
   - wire ./...
   - make tidy
