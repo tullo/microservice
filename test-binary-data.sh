@@ -17,7 +17,7 @@ property: "news",
 section: 1,
 id: 1
 '
-echo $payload | protoc --encode tullo.microservice.stats.PushRequest rpc/stats/stats.proto \
+echo $payload | protoc --deterministic_output --encode tullo.microservice.stats.PushRequest rpc/stats/stats.proto \
 	| curl -s -H 'Content-Type: application/protobuf' --data-binary @- $url \
 	| protoc --decode tullo.microservice.stats.PushResponse rpc/stats/stats.proto
 
@@ -36,7 +36,7 @@ hd_url="http://$(get_hd_ip):3000/twirp/tullo.microservice.haberdasher.Haberdashe
 echo "~ url: $hd_url"
 echo '~ protoc decoded response:'
 echo 'centimeters:53' \
-	| protoc --encode tullo.microservice.haberdasher.Size rpc/haberdasher/haberdasher.proto \
+	| protoc --deterministic_output --encode tullo.microservice.haberdasher.Size rpc/haberdasher/haberdasher.proto \
 	| curl -s -H 'Content-Type: application/protobuf' --data-binary @- $hd_url \
 	| protoc --decode tullo.microservice.haberdasher.Hat rpc/haberdasher/haberdasher.proto
 
@@ -46,7 +46,7 @@ echo "=== Haberdasher Service - step by step                                    
 echo "============================================================================+"
 echo
 
-echo 'centimeters:53' | protoc --encode tullo.microservice.haberdasher.Size rpc/haberdasher/haberdasher.proto > /tmp/binary.data
+echo 'centimeters:53' | protoc --deterministic_output --encode tullo.microservice.haberdasher.Size rpc/haberdasher/haberdasher.proto > /tmp/binary.data
 echo "~ url: $hd_url"
 echo '~ protoc encoded request:'
 hexdump -C /tmp/binary.data
