@@ -1,6 +1,6 @@
 # Microservice
 
-Add .proto file. Scaffold Go code. Implement gRPC service. Done. 
+Add .proto file. Scaffold Go code. Implement gRPC service. Done.
 
 ```console
 1. make
@@ -8,6 +8,14 @@ Add .proto file. Scaffold Go code. Implement gRPC service. Done.
 3. docker-compose up -d
 4. ./test-service.sh
 5. ./test-benchmark-service.sh
+```
+
+## Install Drone CI
+
+https://docs.drone.io/cli/install/
+
+```sh
+cd ~/bin && curl -L https://github.com/drone/drone-cli/releases/latest/download/drone_linux_amd64.tar.gz | tar zx
 ```
 
 ## Build and push dev image
