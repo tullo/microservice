@@ -1,4 +1,4 @@
-FROM alpine:3.12
+FROM alpine:3.13.2
 
 ARG service_name
 ENV service_name=$service_name
