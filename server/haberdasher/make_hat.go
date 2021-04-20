@@ -8,7 +8,6 @@ import (
 	"math/big"
 	"strings"
 
-	"github.com/pkg/errors"
 	"github.com/tullo/microservice/inject"
 	"github.com/tullo/microservice/rpc/haberdasher"
 	"github.com/tullo/microservice/rpc/stats"
@@ -22,12 +21,12 @@ func (svc *Server) MakeHat(ctx context.Context, size *haberdasher.Size) (*haberd
 	}
 	ci, err := randomInt(int64(len(color)))
 	if err != nil {
-		return nil, errors.WithStack(err)
+		return nil, fmt.Errorf("%w", err)
 	}
 
 	ni, err := randomInt(int64(len(name)))
 	if err != nil {
-		return nil, errors.WithStack(err)
+		return nil, fmt.Errorf("%w", err)
 	}
 
 	hat := Hat{
@@ -48,7 +47,7 @@ func (svc *Server) MakeHat(ctx context.Context, size *haberdasher.Size) (*haberd
 	query := fmt.Sprintf("insert into %s (%s) values (%s)", HatTable, fields, named)
 	_, err = svc.db.NamedExecContext(ctx, query, &hat)
 	if err != nil {
-		return nil, errors.Wrap(err, fmt.Sprintf("error inserting hat: %s", query))
+		return nil, fmt.Errorf("error inserting hat: %s: %w", query, err)
 	}
 
 	return &haberdasher.Hat{

@@ -2,11 +2,11 @@ package db
 
 import (
 	"context"
+	"fmt"
 	"os"
 	"time"
 
 	"github.com/jmoiron/sqlx"
-	"github.com/pkg/errors"
 )
 
 // Connect connects to a database and produces the handle for injection.
@@ -14,7 +14,7 @@ func Connect(ctx context.Context) (*sqlx.DB, error) {
 	dsn := os.Getenv("DB_DSN")
 	driver := os.Getenv("DB_DRIVER")
 	if dsn == "" {
-		return nil, errors.New("DB_DSN not provided")
+		return nil, fmt.Errorf("db_dsn not provided")
 	}
 	if driver == "" {
 		driver = "mysql"
@@ -38,7 +38,7 @@ func Connect(ctx context.Context) (*sqlx.DB, error) {
 func ConnectWithOptions(ctx context.Context, options ConnectionOptions) (*sqlx.DB, error) {
 	db := options.DB
 	if db.DSN == "" {
-		return nil, errors.New("DSN not provided")
+		return nil, fmt.Errorf("dsn not provided")
 	}
 	if db.Driver == "" {
 		db.Driver = "mysql"
@@ -59,12 +59,17 @@ func connect(ctx context.Context, options ConnectionOptions) (*sqlx.DB, error) {
 	db := options.DB
 	if options.Connector != nil {
 		handle, err := options.Connector(ctx, db)
-		if err == nil {
-			return sqlx.NewDb(handle, db.Driver), nil
+		if err != nil {
+			return nil, fmt.Errorf("error producing connection pool: %w", err)
 		}
 
-		return nil, errors.WithStack(err)
+		return sqlx.NewDb(handle, db.Driver), nil
 	}
 
-	return sqlx.ConnectContext(ctx, db.Driver, db.DSN)
+	ping, err := sqlx.ConnectContext(ctx, db.Driver, db.DSN)
+	if err != nil {
+		return nil, fmt.Errorf("failed to ping db: %w", err)
+	}
+
+	return ping, nil
 }

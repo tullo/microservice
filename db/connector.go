@@ -84,9 +84,9 @@ func ConnectWithRetry(ctx context.Context, options ConnectionOptions) (*sqlx.DB,
 	case err = <-connErrCh:
 		break
 	case <-time.After(options.ConnectTimeout):
-		return nil, errors.Errorf("db connect timed out, dsn=%s", dsn)
+		return nil, fmt.Errorf("db connect timed out, dsn=%s", dsn)
 	case <-ctx.Done():
-		return nil, errors.Errorf("db connection cancelled, dsn=%s", dsn)
+		return nil, fmt.Errorf("db connection cancelled, dsn=%s", dsn)
 	}
 
 	return db, nil

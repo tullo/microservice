@@ -3,8 +3,6 @@ package db
 import (
 	"fmt"
 	"log"
-
-	"github.com/pkg/errors"
 )
 
 func printQuery(idx int, query string) error {
@@ -20,7 +18,7 @@ func printMigrations(fs *FS, filename string) error {
 	log.Println("Printing migrations from", filename)
 	stmts, err := statements(fs.ReadFile(filename))
 	if err != nil {
-		return errors.Wrap(err, fmt.Sprintf("Error reading migration: %s", filename))
+		return fmt.Errorf("error reading migration: %s: %w", filename, err)
 	}
 
 	for idx, stmt := range stmts {
@@ -36,7 +34,7 @@ func printMigrations(fs *FS, filename string) error {
 func Print(project string) error {
 	fs, ok := migrations[project]
 	if !ok {
-		return errors.Errorf("Migrations for '%s' don't exist", project)
+		return fmt.Errorf("migrations for '%s' don't exist", project)
 	}
 
 	// print main migration

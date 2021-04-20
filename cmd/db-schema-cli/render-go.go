@@ -5,13 +5,10 @@ import (
 	"fmt"
 	"go/format"
 	"io"
-	"io/ioutil"
 	"log"
 	"os"
 	"path"
 	"strings"
-
-	"github.com/pkg/errors"
 )
 
 var numericTypes map[string]string = map[string]string{
@@ -87,7 +84,7 @@ func resolveTypeGo(column *Column) (string, error) {
 		return val.Type, nil
 	}
 
-	return "", errors.Errorf("Unsupported SQL type: %s", column.DataType)
+	return "", fmt.Errorf("unsupported SQL type: %s", column.DataType)
 }
 
 func printCollectedImports(buf io.Writer, imports []string) {
@@ -235,5 +232,9 @@ func renderGo(basePath string, service string, tables []*Table) error {
 		log.Println("Saving the unformatted code")
 	}
 
-	return ioutil.WriteFile(filename, formatted, 0600)
+	if err := os.WriteFile(filename, formatted, 0600); err != nil {
+		return fmt.Errorf("error writing file: %s: %w", filename, err)
+	}
+
+	return nil
 }

@@ -2,6 +2,7 @@ package db
 
 import (
 	"encoding/base64"
+	"fmt"
 	"os"
 	"path/filepath"
 	"sort"
@@ -30,7 +31,12 @@ func (fs FS) Migrations() []string {
 // ReadFile returns decoded file contents from FS.
 func (fs FS) ReadFile(filename string) ([]byte, error) {
 	if val, ok := fs[filename]; ok {
-		return base64.StdEncoding.DecodeString(val)
+		bs, err := base64.StdEncoding.DecodeString(val)
+		if err != nil {
+			return nil, fmt.Errorf("failed to decode: %w", err)
+		}
+
+		return bs, nil
 	}
 
 	return nil, os.ErrNotExist

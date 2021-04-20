@@ -14,7 +14,7 @@ import (
 func Run(project string, db *sqlx.DB) error {
 	fs, ok := migrations[project]
 	if !ok {
-		return errors.Errorf("Migrations for '%s' don't exist", project)
+		return fmt.Errorf("migrations for '%s' don't exist", project)
 	}
 
 	// run main migration
@@ -71,13 +71,17 @@ func migrate(db *sqlx.DB, fs *FS, project, filename string) error {
 		}
 	}
 
-	return errors.Wrap(err, "migrateUp failed")
+	if err != nil {
+		return fmt.Errorf("migrate-up failed: %w", err)
+	}
+
+	return nil
 }
 
 func migrateUp(db *sqlx.DB, fs *FS, mig *migration, useLog bool) error {
 	stmts, err := statements(fs.ReadFile(mig.Filename))
 	if err != nil {
-		return errors.Wrap(err, fmt.Sprintf("Error reading migration: %s", mig.Filename))
+		return fmt.Errorf("error reading migration: %s: %w", mig.Filename, err)
 	}
 
 	for idx, stmt := range stmts {
