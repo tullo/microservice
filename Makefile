@@ -1,3 +1,4 @@
+#!/bin/bash -eo pipefail
 .PHONY: all build build-cli migrate rpc templates
 
 all:
@@ -9,7 +10,7 @@ chown:
 	@echo OK.
 
 lint:
-	golangci-lint run -E depguard,dupl,errcheck,errorlint,forbidigo,gocritic,godot,gosec,interfacer,nakedret,nlreturn,misspell,sqlclosecheck,whitespace,wrapcheck ./...
+	golangci-lint run -E depguard,dupl,errcheck,errorlint,forbidigo,gocritic,godot,gosec,nakedret,nlreturn,misspell,sqlclosecheck,whitespace,wrapcheck ./...
 #	golint -set_exit_status ./...
 
 
