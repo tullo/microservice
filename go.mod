@@ -16,7 +16,7 @@ require (
 	github.com/sony/sonyflake v1.1.0
 	github.com/twitchtv/twirp v7.1.0+incompatible
 	go.elastic.co/apm v1.15.0
-	go.elastic.co/apm/module/apmhttp v1.11.0
+	go.elastic.co/apm/module/apmhttp v1.15.0
 	go.elastic.co/apm/module/apmsql v2.2.0
 	go.elastic.co/apm/v2 v2.2.0
 	go.uber.org/atomic v1.10.0
