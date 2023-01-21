@@ -14,7 +14,7 @@ require (
 	github.com/pkg/errors v0.9.1
 	github.com/serenize/snaker v0.0.0-20201027110005-a7ad2135616e
 	github.com/sony/sonyflake v1.1.0
-	github.com/twitchtv/twirp v7.1.0+incompatible
+	github.com/twitchtv/twirp/v8 v8.1.3+incompatible
 	go.elastic.co/apm v1.15.0
 	go.elastic.co/apm/module/apmhttp v1.15.0
 	go.elastic.co/apm/module/apmsql v2.2.0
