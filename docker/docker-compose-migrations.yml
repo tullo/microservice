@@ -8,7 +8,7 @@ services:
       MYSQL_DATABASE: stats
       MYSQL_PASSWORD: stats
       MYSQL_USER: stats
-    image: percona/percona-server:8.0.30
+    image: percona/percona-server:8.0.31
     restart: always
 
   migrations:
