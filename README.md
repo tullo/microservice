@@ -2,7 +2,7 @@
 
 Add .proto file. Scaffold Go code. Implement gRPC service. Done.
 
-```console
+```sh
 1. make
 2. make docker
 3. docker-compose up -d
@@ -15,12 +15,13 @@ Add .proto file. Scaffold Go code. Implement gRPC service. Done.
 https://docs.drone.io/cli/install/
 
 ```sh
-cd ~/bin && curl -L https://github.com/drone/drone-cli/releases/latest/download/drone_linux_amd64.tar.gz | tar zx
+curl -L https://github.com/harness/drone-cli/releases/latest/download/drone_linux_amd64.tar.gz | tar zx
+sudo install -t /usr/local/bin drone && rm drone
 ```
 
 ## Build and push dev image
 
-```console
+```sh
 cd docker/build && make && make push
 ```
 
@@ -28,19 +29,21 @@ cd docker/build && make && make push
 
 Get latest sqlx module version that supports batch insert.
 
-```console
+```sh
 go get github.com/jmoiron/sqlx@master
 ```
 
 ## Scaffold and compile using Drone CI
 
-```console
+```sh
 make
 ```
 
 ## Build Go binaries and Docker service images
 
-```console
+```sh
+# install figlet
+sudo apt install figlet
 # build all docker images
 make build && make docker
 # build specific docker image
