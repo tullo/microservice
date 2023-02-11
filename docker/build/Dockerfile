@@ -20,30 +20,30 @@ RUN mkdir -p /tmp/protoc && \
     rm -r /tmp/protoc
 
 # Install grpc
-RUN GO111MODULE=on go get google.golang.org/grpc
+RUN go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.2
 
 # Install protoc-gen-go
-RUN GO111MODULE=on go install github.com/golang/protobuf/protoc-gen-go@v1.5.2
+RUN go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.28
 
 # Install protoc-gen-twirp
-RUN GO111MODULE=on go install github.com/twitchtv/twirp/protoc-gen-twirp@v7.2.0
+RUN go install github.com/twitchtv/twirp/protoc-gen-twirp@v7.2.0
 
 # Install additional twirp outputs
-RUN GO111MODULE=on go install github.com/thechriswalker/protoc-gen-twirp_js@v0.0.0-20190627152235-0fe8731d4d8f
-RUN GO111MODULE=on go install github.com/elliots/protoc-gen-twirp_swagger@v0.0.0-20200502013400-f21ef47d69e3
+RUN go install github.com/thechriswalker/protoc-gen-twirp_js@v0.0.0-20190627152235-0fe8731d4d8f
+RUN go install github.com/elliots/protoc-gen-twirp_swagger@v0.0.0-20200502013400-f21ef47d69e3
 
 # Install interface scaffolder
-RUN GO111MODULE=on go install github.com/josharian/impl@v1.0.0
+RUN go install github.com/josharian/impl@v1.0.0
 
 # Install google wire for DI
-RUN GO111MODULE=on go install github.com/google/wire/cmd/wire@v0.5.0
+RUN go install github.com/google/wire/cmd/wire@v0.5.0
 
 # Install golint
-RUN go install golang.org/x/lint/golint@v0.0.0-20201208152925-83fdc39ff7b5
+RUN go install golang.org/x/lint/golint@v0.0.0-20210508222113-6edffad5e616
 
 # GolangCI lint
-# RUN cd /usr/local && curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.37.1
-RUN go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.39.0
+# RUN cd /usr/local && curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.51.1
+RUN go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.51.1
 
 RUN useradd -m -U -s /bin/bash -u 1000 builder
 USER builder
