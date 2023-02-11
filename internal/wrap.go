@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"strings"
 
-	"go.elastic.co/apm/module/apmhttp"
+	"go.elastic.co/apm/module/apmhttp/v2"
 )
 
 // Get remote IP address.

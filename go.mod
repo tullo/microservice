@@ -13,9 +13,10 @@ require (
 	github.com/serenize/snaker v0.0.0-20201027110005-a7ad2135616e
 	github.com/sony/sonyflake v1.1.0
 	github.com/twitchtv/twirp v8.1.3+incompatible
-	go.elastic.co/apm v1.15.0
-	go.elastic.co/apm/module/apmhttp v1.15.0
+	go.elastic.co/apm/module/apmhttp/v2 v2.2.0
 	go.elastic.co/apm/module/apmsql v1.15.0
+	go.elastic.co/apm/module/apmsql/v2 v2.2.0
+	go.elastic.co/apm/v2 v2.2.0
 	go.uber.org/atomic v1.10.0
 	google.golang.org/grpc v1.53.0
 	google.golang.org/protobuf v1.28.1
@@ -32,6 +33,7 @@ require (
 	github.com/onsi/gomega v1.26.0 // indirect
 	github.com/prometheus/procfs v0.9.0 // indirect
 	github.com/santhosh-tekuri/jsonschema v1.2.4 // indirect
+	go.elastic.co/apm v1.15.0 // indirect
 	go.elastic.co/fastjson v1.1.0 // indirect
 	golang.org/x/lint v0.0.0-20210508222113-6edffad5e616 // indirect
 	golang.org/x/mod v0.8.0 // indirect

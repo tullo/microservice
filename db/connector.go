@@ -12,7 +12,7 @@ import (
 
 	"github.com/jmoiron/sqlx"
 	"github.com/pkg/errors"
-	"go.elastic.co/apm/module/apmsql"
+	"go.elastic.co/apm/module/apmsql/v2"
 )
 
 // Connector opens a database and pings it using APM SQL wrapper.

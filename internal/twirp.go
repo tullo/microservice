@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/twitchtv/twirp"
-	"go.elastic.co/apm"
+	"go.elastic.co/apm/v2"
 )
 
 // NewServerHooks provides an error logging hook with Elastic APM.
