@@ -201,6 +201,8 @@ go.elastic.co/apm/module/apmhttp/v2 v2.3.0 h1:yGZyp26uJXUCfRTwvMmDt1d1jJrHgTBBnc
 go.elastic.co/apm/module/apmhttp/v2 v2.3.0/go.mod h1:JCszLIey4ndJGuUUu5FQjNOiTfaln1dqCqXnRcXVxVc=
 go.elastic.co/apm/module/apmhttp/v2 v2.4.0 h1:2zeWxp7L13HVCXVHa5O6mgl0TjG2Efy7Y6Jlv92J10Y=
 go.elastic.co/apm/module/apmhttp/v2 v2.4.0/go.mod h1:hS6ONj/sTI5lB5rM4CIblNUxIDRdUOJ7ZIGKJJr/o0g=
+go.elastic.co/apm/module/apmhttp/v2 v2.4.1 h1:4jIuTNh14opEIwf+zMru1jGW3MuNj6vtI0dsx+6QMt0=
+go.elastic.co/apm/module/apmhttp/v2 v2.4.1/go.mod h1:pJ2sd5b4YCX1YX9VzhvFO6AXpqCPiP3dP5U9qBD4s+8=
 go.elastic.co/apm/module/apmsql v1.15.0 h1:QAy7tM9NwWvqMOdl8KZQsCPzy5XwYdGDkHqdd6QmGj8=
 go.elastic.co/apm/module/apmsql v1.15.0/go.mod h1:9G1TINaFFEqRYBcxJFQ0HGsRQENJ0MCkahNKKre1Fao=
 go.elastic.co/apm/module/apmsql/v2 v2.2.0 h1:V25wpe2ndm78O33WuWDaudwmeOOeK8VqV/ccoNRFkFA=
@@ -213,6 +215,8 @@ go.elastic.co/apm/v2 v2.3.0 h1:jsZQsGWyMyga6xRMcYhKtPvrr5en8wqbmJNmxltST/E=
 go.elastic.co/apm/v2 v2.3.0/go.mod h1:HdwVuAeoJMmoqAZZBNN2YVzj3UVLebtqoRCCydyCP+Q=
 go.elastic.co/apm/v2 v2.4.0 h1:sJwSbVEKDh7lWWNYDW0xokxTK84lbVlkhg9H1MFIyqY=
 go.elastic.co/apm/v2 v2.4.0/go.mod h1:HdwVuAeoJMmoqAZZBNN2YVzj3UVLebtqoRCCydyCP+Q=
+go.elastic.co/apm/v2 v2.4.1 h1:tMxAtHh5TXTYdFG0pTmmUOn/PTI3k/1T1ptb+3O+hYI=
+go.elastic.co/apm/v2 v2.4.1/go.mod h1:HdwVuAeoJMmoqAZZBNN2YVzj3UVLebtqoRCCydyCP+Q=
 go.elastic.co/fastjson v1.1.0 h1:3MrGBWWVIxe/xvsbpghtkFoPciPhOCmjsR/HfwEeQR4=
 go.elastic.co/fastjson v1.1.0/go.mod h1:boNGISWMjQsUPy/t6yqt2/1Wx4YNPSe+mZjlyw9vKKI=
 go.uber.org/atomic v1.3.2/go.mod h1:gD2HeocX3+yG+ygLZcrzQJaqmWj9AIm7n08wl/qW/PE=
