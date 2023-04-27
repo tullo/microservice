@@ -209,6 +209,8 @@ go.elastic.co/apm/module/apmsql/v2 v2.2.0 h1:V25wpe2ndm78O33WuWDaudwmeOOeK8VqV/c
 go.elastic.co/apm/module/apmsql/v2 v2.2.0/go.mod h1:kKc55f48CYuAaakIvANHluYfDJdDt5d5Y1UFcBsBXGk=
 go.elastic.co/apm/module/apmsql/v2 v2.3.0 h1:VgZEorywPKNNjr7+z2l00KvpohCYGvOpVBYnWE6yPeY=
 go.elastic.co/apm/module/apmsql/v2 v2.3.0/go.mod h1:LhOi30Tu7C1KMNLGnWEr6uN0JTF1MkJ/G/9AJsH9oCE=
+go.elastic.co/apm/module/apmsql/v2 v2.4.1 h1:6uehE0rYL/Hun0846aQViEe7Pys/N86Wg8tWgg9uqeg=
+go.elastic.co/apm/module/apmsql/v2 v2.4.1/go.mod h1:9WvTQJ1MF0ZLSFAML825vNlvPHdB9Pqmyhmy6uwamVc=
 go.elastic.co/apm/v2 v2.2.0 h1:F4iM9XJKzZEcXU+NPOFLYXLXQf/3hU7rrcNRKWufKGQ=
 go.elastic.co/apm/v2 v2.2.0/go.mod h1:KGQn56LtRmkQjt2qw4+c1Jz8gv9rCBUU/m21uxrqcps=
 go.elastic.co/apm/v2 v2.3.0 h1:jsZQsGWyMyga6xRMcYhKtPvrr5en8wqbmJNmxltST/E=
