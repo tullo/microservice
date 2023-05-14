@@ -3,4 +3,11 @@
   "extends": [
     "config:base"
   ]
+  "packageRules": [
+    {
+      "matchUpdateTypes": ["minor", "patch"],
+      "matchPackageNames": ["alpine"],
+      "automerge": true
+    }
+  ]
 }
