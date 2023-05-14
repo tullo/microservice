@@ -7,10 +7,11 @@
     {
       "matchUpdateTypes": ["minor", "patch"],
       "matchPackageNames": ["alpine", "docker.elastic.co/apm/apm-server"],
-      "automerge": true,
-      "automergeType": "branch",
-      "automergeStrategy": "rebase",
-      "commitBodyTable": true
+      "automerge": true
     }
-  ]
+  ],
+  "automerge": true,
+  "automergeType": "branch",
+  "automergeStrategy": "rebase",
+  "commitBodyTable": true  
 }
