@@ -6,7 +6,7 @@
   "packageRules": [
     {
       "matchUpdateTypes": ["minor", "patch"],
-      "matchPackageNames": ["alpine"],
+      "matchPackageNames": ["alpine", "docker.elastic.co/apm/apm-server"],
       "automerge": true,
       "automergeType": "branch",
       "automergeStrategy": "rebase",
