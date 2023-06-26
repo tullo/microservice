@@ -8,7 +8,7 @@ import (
 	"time"
 
 	// apm specific wrapper for the go mysql driver.
-	_ "go.elastic.co/apm/module/apmsql/mysql"
+	_ "go.elastic.co/apm/module/apmsql/v2/mysql"
 
 	"github.com/jmoiron/sqlx"
 	"github.com/pkg/errors"
