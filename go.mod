@@ -13,9 +13,9 @@ require (
 	github.com/serenize/snaker v0.0.0-20201027110005-a7ad2135616e
 	github.com/sony/sonyflake v1.2.0
 	github.com/twitchtv/twirp v8.1.3+incompatible
-	go.elastic.co/apm/module/apmhttp/v2 v2.4.3
+	go.elastic.co/apm/module/apmhttp/v2 v2.4.4
 	go.elastic.co/apm/module/apmsql/v2 v2.4.3
-	go.elastic.co/apm/v2 v2.4.3
+	go.elastic.co/apm/v2 v2.4.4
 	go.uber.org/atomic v1.11.0
 	google.golang.org/grpc v1.57.0
 	google.golang.org/protobuf v1.31.0
