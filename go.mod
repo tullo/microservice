@@ -1,6 +1,6 @@
 module github.com/tullo/microservice
 
-go 1.20
+go 1.21
 
 require (
 	github.com/SentimensRG/sigctx v0.0.0-20171003180858-c19b774db63b
@@ -23,16 +23,16 @@ require (
 
 require (
 	github.com/armon/go-radix v1.0.0 // indirect
-	github.com/elastic/go-sysinfo v1.11.0 // indirect
+	github.com/elastic/go-sysinfo v1.11.1 // indirect
 	github.com/elastic/go-windows v1.0.1 // indirect
 	github.com/joeshaw/multierror v0.0.0-20140124173710-69b34d4ec901 // indirect
 	github.com/onsi/ginkgo v1.16.5 // indirect
 	github.com/onsi/gomega v1.27.8 // indirect
-	github.com/prometheus/procfs v0.11.0 // indirect
+	github.com/prometheus/procfs v0.12.0 // indirect
 	go.elastic.co/fastjson v1.3.0 // indirect
-	golang.org/x/net v0.17.0 // indirect
-	golang.org/x/sys v0.13.0 // indirect
-	golang.org/x/text v0.13.0 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20230822172742-b8732ec3820d // indirect
+	golang.org/x/net v0.18.0 // indirect
+	golang.org/x/sys v0.14.0 // indirect
+	golang.org/x/text v0.14.0 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20231120223509-83a465c0220f // indirect
 	howett.net/plist v1.0.0 // indirect
 )
