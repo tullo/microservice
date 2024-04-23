@@ -7,7 +7,7 @@ require (
 	github.com/go-sql-driver/mysql v1.8.1
 	github.com/golang/protobuf v1.5.4
 	github.com/google/wire v0.6.0
-	github.com/jmoiron/sqlx v1.3.5
+	github.com/jmoiron/sqlx v1.4.0
 	github.com/namsral/flag v1.7.4-pre
 	github.com/pkg/errors v0.9.1
 	github.com/serenize/snaker v0.0.0-20201027110005-a7ad2135616e
