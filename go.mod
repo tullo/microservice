@@ -18,7 +18,7 @@ require (
 	go.elastic.co/apm/v2 v2.6.0
 	go.uber.org/atomic v1.11.0
 	google.golang.org/grpc v1.63.2
-	google.golang.org/protobuf v1.34.0
+	google.golang.org/protobuf v1.34.1
 )
 
 require (
