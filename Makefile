@@ -2,7 +2,7 @@
 .PHONY: all build build-cli migrate rpc templates
 
 all:
-	@drone exec
+	drone exec --pipeline build .drone.yml
 #	drone exec --pipeline build --resume-at tidy
 
 chown:
@@ -28,9 +28,9 @@ rpc.%: SERVICE=$*
 rpc.%:
 	@echo '> protoc gen for $(SERVICE)'
 	@mkdir -p js
-	@protoc --proto_path=$(GOPATH)/src:. -Irpc/$(SERVICE) --go_out=plugins=grpc,paths=source_relative:. rpc/$(SERVICE)/$(SERVICE).proto
-	@protoc --proto_path=$(GOPATH)/src:. -Irpc/$(SERVICE) --twirp_out=paths=source_relative:. rpc/$(SERVICE)/$(SERVICE).proto
-	@protoc --proto_path=$(GOPATH)/src:. -Irpc/$(SERVICE) --twirp_swagger_out=js --twirp_js_out=js --js_out=import_style=commonjs,binary:js $(SERVICE).proto
+	@protoc --proto_path=rpc/$(SERVICE) --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative rpc/$(SERVICE)/$(SERVICE).proto
+	@protoc --proto_path=rpc/$(SERVICE) --twirp_out=paths=source_relative:. rpc/$(SERVICE)/$(SERVICE).proto
+	@protoc --proto_path=rpc/$(SERVICE) --twirp_swagger_out=js --twirp_js_out=js --js_out=import_style=commonjs,binary:js $(SERVICE).proto
 
 # build cmd/ go binaries ==================================== [dynamic targets]
 
