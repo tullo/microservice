@@ -74,12 +74,12 @@ github.com/twitchtv/twirp v8.1.3+incompatible h1:+F4TdErPgSUbMZMwp13Q/KgDVuI7HJX
 github.com/twitchtv/twirp v8.1.3+incompatible/go.mod h1:RRJoFSAmTEh2weEqWtpPE3vFK5YBhA6bqp2l1kfCC5A=
 github.com/yuin/goldmark v1.2.1/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=
 github.com/yuin/goldmark v1.4.13/go.mod h1:6yULJ656Px+3vBD8DxQVa3kxgyrAnzto9xy5taEt/CY=
-go.elastic.co/apm/module/apmhttp/v2 v2.6.0 h1:s8UeNFQmVBCNd4eoz7KDD9rEFhQC0HeUFXz3z9gpAmQ=
-go.elastic.co/apm/module/apmhttp/v2 v2.6.0/go.mod h1:D0GLppLuI0Ddwvtl595GUxRgn6Z8L5KaDFVMv2H3GK0=
+go.elastic.co/apm/module/apmhttp/v2 v2.6.2 h1:+aYtP1Lnrsm+XtEs87RWG2PAyU6LHDDnYnJl3Lth0Qk=
+go.elastic.co/apm/module/apmhttp/v2 v2.6.2/go.mod h1:vlH+vXHaEijKK4pk605LOK+lbLDKwcByhlq4J24PeXw=
 go.elastic.co/apm/module/apmsql/v2 v2.6.0 h1:0II/0w9RHXE6S/94a0gy0d+iinaDJjylQrHTQPeMVDA=
 go.elastic.co/apm/module/apmsql/v2 v2.6.0/go.mod h1:ukcj1qkWXZ2rZ3g50jqoeDxcqF/qQvn7kB5tidFMF18=
-go.elastic.co/apm/v2 v2.6.1 h1:uOYKCPgrQiB2O9uMxOQXQ82xh/FUrIwaiXKPfCW1Uk0=
-go.elastic.co/apm/v2 v2.6.1/go.mod h1:33rOXgtHwbgZcDgi6I/GtCSMZQqgxkHC0IQT3gudKvo=
+go.elastic.co/apm/v2 v2.6.2 h1:VBplAxgbOgTv+Giw/FS91xJpHYw/q8fz/XKPvqC+7/o=
+go.elastic.co/apm/v2 v2.6.2/go.mod h1:33rOXgtHwbgZcDgi6I/GtCSMZQqgxkHC0IQT3gudKvo=
 go.elastic.co/fastjson v1.3.0 h1:hJO3OsYIhiqiT4Fgu0ZxAECnKASbwgiS+LMW5oCopKs=
 go.elastic.co/fastjson v1.3.0/go.mod h1:K9vDh7O0ODsVKV2B5e2XYLY277QZaCbB3tS1SnARvko=
 go.uber.org/atomic v1.11.0 h1:ZvwS0R+56ePWxUNi+Atn9dWONBPp/AUETXlHW0DxSjE=
