@@ -76,8 +76,8 @@ github.com/yuin/goldmark v1.2.1/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9dec
 github.com/yuin/goldmark v1.4.13/go.mod h1:6yULJ656Px+3vBD8DxQVa3kxgyrAnzto9xy5taEt/CY=
 go.elastic.co/apm/module/apmhttp/v2 v2.6.2 h1:+aYtP1Lnrsm+XtEs87RWG2PAyU6LHDDnYnJl3Lth0Qk=
 go.elastic.co/apm/module/apmhttp/v2 v2.6.2/go.mod h1:vlH+vXHaEijKK4pk605LOK+lbLDKwcByhlq4J24PeXw=
-go.elastic.co/apm/module/apmsql/v2 v2.6.0 h1:0II/0w9RHXE6S/94a0gy0d+iinaDJjylQrHTQPeMVDA=
-go.elastic.co/apm/module/apmsql/v2 v2.6.0/go.mod h1:ukcj1qkWXZ2rZ3g50jqoeDxcqF/qQvn7kB5tidFMF18=
+go.elastic.co/apm/module/apmsql/v2 v2.6.2 h1:wKCfsGhU9L1w0xM5hVMnukzTb35eIFU3L68gg0v55wU=
+go.elastic.co/apm/module/apmsql/v2 v2.6.2/go.mod h1:W2tSac0SXRQwtj4DS+IJTb2oLWffW6fDHQmiw3GKAvk=
 go.elastic.co/apm/v2 v2.6.2 h1:VBplAxgbOgTv+Giw/FS91xJpHYw/q8fz/XKPvqC+7/o=
 go.elastic.co/apm/v2 v2.6.2/go.mod h1:33rOXgtHwbgZcDgi6I/GtCSMZQqgxkHC0IQT3gudKvo=
 go.elastic.co/fastjson v1.3.0 h1:hJO3OsYIhiqiT4Fgu0ZxAECnKASbwgiS+LMW5oCopKs=
