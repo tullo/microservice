@@ -20,7 +20,7 @@ require (
 	go.elastic.co/apm/v2 v2.6.3
 	go.uber.org/atomic v1.11.0
 	google.golang.org/grpc v1.69.4
-	google.golang.org/protobuf v1.36.2
+	google.golang.org/protobuf v1.36.3
 )
 
 require (
