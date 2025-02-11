@@ -2,7 +2,7 @@ module github.com/tullo/microservice
 
 go 1.22.7
 
-toolchain go1.23.6
+toolchain go1.24.0
 
 require (
 	github.com/SentimensRG/sigctx v0.0.0-20171003180858-c19b774db63b
