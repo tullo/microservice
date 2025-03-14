@@ -1,6 +1,6 @@
 module github.com/tullo/microservice
 
-go 1.22.7
+go 1.23
 
 toolchain go1.24.1
 
@@ -16,8 +16,8 @@ require (
 	github.com/sony/sonyflake v1.2.0
 	github.com/twitchtv/twirp v8.1.3+incompatible
 	go.elastic.co/apm/module/apmhttp/v2 v2.6.3
-	go.elastic.co/apm/module/apmsql/v2 v2.6.3
-	go.elastic.co/apm/v2 v2.6.3
+	go.elastic.co/apm/module/apmsql/v2 v2.7.0
+	go.elastic.co/apm/v2 v2.7.0
 	go.uber.org/atomic v1.11.0
 	google.golang.org/grpc v1.71.0
 	google.golang.org/protobuf v1.36.5
