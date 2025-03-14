@@ -83,10 +83,10 @@ github.com/yuin/goldmark v1.2.1/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9dec
 github.com/yuin/goldmark v1.4.13/go.mod h1:6yULJ656Px+3vBD8DxQVa3kxgyrAnzto9xy5taEt/CY=
 go.elastic.co/apm/module/apmhttp/v2 v2.6.3 h1:jwFovJZkccySKCyy2oE9ZKvUry/a4gdQHF/MtZUQVtE=
 go.elastic.co/apm/module/apmhttp/v2 v2.6.3/go.mod h1:w94Gkk6uzI/K+eJYKDLB66tvWC5uK0fSHyWcyX2jPlQ=
-go.elastic.co/apm/module/apmsql/v2 v2.6.3 h1:iPAc/jtRb5HkjD36x081f2bbGLes13x1zBrnlcc5+fA=
-go.elastic.co/apm/module/apmsql/v2 v2.6.3/go.mod h1:KIbrcrZ/Fwz9DoO/lHCw8m7or7J440E+HPRtO4gDMv4=
-go.elastic.co/apm/v2 v2.6.3 h1:yVKFPLnmHOxpzLMGd3aexcik20ziXmRHqgcn9NZn/VU=
-go.elastic.co/apm/v2 v2.6.3/go.mod h1:33rOXgtHwbgZcDgi6I/GtCSMZQqgxkHC0IQT3gudKvo=
+go.elastic.co/apm/module/apmsql/v2 v2.7.0 h1:sdXzfiKMIENen8Mxk+O0jf278zvVVMyuOF+5naMNxwk=
+go.elastic.co/apm/module/apmsql/v2 v2.7.0/go.mod h1:pjB6BwfyrzBji93Y1SKWN186ssu9lR+l5N0aMAiI06g=
+go.elastic.co/apm/v2 v2.7.0 h1:fbsy3BmTTedIbj7+1Ay9Zpdfuztd8RUk7Dm0JvxRW/M=
+go.elastic.co/apm/v2 v2.7.0/go.mod h1:f1Sr3rVJju5winTjsJtKzofdU32L7+Mw/c23cVcn3Io=
 go.elastic.co/fastjson v1.3.0 h1:hJO3OsYIhiqiT4Fgu0ZxAECnKASbwgiS+LMW5oCopKs=
 go.elastic.co/fastjson v1.3.0/go.mod h1:K9vDh7O0ODsVKV2B5e2XYLY277QZaCbB3tS1SnARvko=
 go.opentelemetry.io/auto/sdk v1.1.0 h1:cH53jehLUN6UFLY71z+NDOiNJqDdPRaXzTel0sJySYA=
