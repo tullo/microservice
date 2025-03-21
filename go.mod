@@ -1,11 +1,12 @@
 module github.com/tullo/microservice
 
-go 1.23
+go 1.23.0
+
 toolchain go1.24.1
 
 require (
 	github.com/SentimensRG/sigctx v0.0.0-20171003180858-c19b774db63b
-	github.com/go-sql-driver/mysql v1.9.0
+	github.com/go-sql-driver/mysql v1.9.1
 	github.com/golang/protobuf v1.5.4
 	github.com/google/wire v0.6.0
 	github.com/jmoiron/sqlx v1.4.0
