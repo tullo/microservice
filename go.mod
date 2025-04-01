@@ -19,7 +19,7 @@ require (
 	go.elastic.co/apm/module/apmsql/v2 v2.7.0
 	go.elastic.co/apm/v2 v2.7.0
 	go.uber.org/atomic v1.11.0
-	google.golang.org/grpc v1.71.0
+	google.golang.org/grpc v1.71.1
 	google.golang.org/protobuf v1.36.6
 )
 
