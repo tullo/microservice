@@ -1,4 +1,4 @@
-FROM golang:1.24.1
+FROM golang:1.24.2
 
 ENV PB_VER 3.15.8
 ENV PB_URL https://github.com/google/protobuf/releases/download/v${PB_VER}/protoc-${PB_VER}-linux-x86_64.zip
