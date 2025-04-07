@@ -6,7 +6,7 @@ toolchain go1.24.2
 
 require (
 	github.com/SentimensRG/sigctx v0.0.0-20171003180858-c19b774db63b
-	github.com/go-sql-driver/mysql v1.9.1
+	github.com/go-sql-driver/mysql v1.9.2
 	github.com/golang/protobuf v1.5.4
 	github.com/google/wire v0.6.0
 	github.com/jmoiron/sqlx v1.4.0
