@@ -2,7 +2,7 @@ package stats
 
 import (
 	"github.com/jmoiron/sqlx"
-	"github.com/sony/sonyflake"
+	"github.com/sony/sonyflake/2"
 )
 
 // Server implements stats.Stats.
