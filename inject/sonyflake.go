@@ -4,7 +4,7 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/sony/sonyflake"
+	"github.com/sony/sonyflake/2"
 )
 
 // Sonyflake produces a sonyflake ID generator dependency.
