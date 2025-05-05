@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	"github.com/jmoiron/sqlx"
-	"github.com/sony/sonyflake/2"
+	"github.com/sony/sonyflake/v2"
 	"github.com/tullo/microservice/rpc/haberdasher"
 )
 
