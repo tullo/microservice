@@ -1,4 +1,4 @@
-FROM docker.elastic.co/apm/apm-server:9.2.0
+FROM docker.elastic.co/apm/apm-server:9.2.1
 
 USER root
 COPY apm-server.yml /usr/share/apm-server/apm-server.yml
