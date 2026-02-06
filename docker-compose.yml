@@ -25,7 +25,7 @@ services:
     - ./docker/dev/initdb.d:/docker-entrypoint-initdb.d:rw
 
   elk:
-    image: sebp/elk:9.2.4
+    image: sebp/elk:9.3.0
     ports:
     - published: 5601
       target: 5601
