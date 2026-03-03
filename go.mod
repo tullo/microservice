@@ -18,7 +18,7 @@ require (
 	github.com/twitchtv/twirp v8.1.3+incompatible
 	go.elastic.co/apm/module/apmhttp/v2 v2.7.4
 	go.elastic.co/apm/module/apmsql/v2 v2.7.4
-	go.elastic.co/apm/v2 v2.7.3
+	go.elastic.co/apm/v2 v2.7.4
 	go.uber.org/atomic v1.11.0
 	google.golang.org/grpc v1.79.1
 	google.golang.org/protobuf v1.36.11
